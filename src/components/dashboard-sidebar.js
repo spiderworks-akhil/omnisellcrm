@@ -16,196 +16,52 @@ import { DocumentText as DocumentTextIcon } from '../icons/document-text';
 import { OfficeBuilding as OfficeBuildingIcon } from '../icons/office-building';
 import { ReceiptTax as ReceiptTaxIcon } from '../icons/receipt-tax';
 import { Template as TemplateIcon } from '../icons/template';
+import {
+  BarChart, CurtainsClosed,
+  Filter,
+  Filter1Outlined,
+  Filter3Rounded, ListAltOutlined,
+  SearchOff,
+  ViewListOutlined,
+  YoutubeSearchedForOutlined
+} from "@mui/icons-material";
 
 const items = [
   {
-    icon: ChartPieIcon,
-    title: 'Reports',
+    icon: BarChart,
+    title: 'Dashboard',
     href: '/dashboard/reports',
   },
   {
-    icon: UsersIcon,
+    icon: Filter1Outlined,
+    title: 'Pre Qualifiers',
+    href: '/dashboard/pre-qualifiers',
+  },
+  {
+    icon: ViewListOutlined,
     title: 'Leads',
     href: '/dashboard/leads',
   },
   {
+    icon: YoutubeSearchedForOutlined,
+    title: 'Lead Filter',
+    href: '/dashboard/lead-filter',
+  },
+  {
+    icon: ListAltOutlined,
+    title: 'Labels',
+    href: '/dashboard/labels',
+  },
+  {
     icon: UsersIcon,
-    title: 'Customers',
-    items: [
-      {
-        href: '/dashboard/customers',
-        title: 'List'
-      },
-      {
-        href: '/dashboard/customers/summary',
-        title: 'Summary'
-      },
-    ]
+    title: 'My leads',
+    href: '/dashboard/mine',
   },
   {
-    icon: CubeIcon,
-    title: 'Orders',
-    items: [
-      {
-        href: '/dashboard/orders',
-        title: 'List'
-      },
-      {
-        href: '/dashboard/orders/1',
-        title: 'Summary'
-      }
-    ]
+    icon: CurtainsClosed,
+    title: 'Closed leads',
+    href: '/dashboard/closed',
   },
-  {
-    icon: ShoppingCartIcon,
-    title: 'Products',
-    items: [
-      {
-        href: '/dashboard/products',
-        title: 'List'
-      },
-      {
-        href: '/dashboard/products/1',
-        title: 'Summary'
-      },
-      {
-        href: '/dashboard/products/1/inventory',
-        title: 'Inventory'
-      },
-      {
-        href: '/dashboard/products/1/analytics',
-        title: 'Insights'
-      }
-    ]
-  },
-  {
-    icon: ReceiptTaxIcon,
-    title: 'Invoices',
-    items: [
-      {
-        href: '/dashboard/invoices',
-        title: 'List'
-      },
-      {
-        href: '/dashboard/invoices/create',
-        title: 'Create'
-      },
-      {
-        href: '/dashboard/invoices/1',
-        title: 'Details'
-      },
-      {
-        href: '/dashboard/invoices/1/preview',
-        title: 'Preview'
-      }
-    ]
-  },
-  {
-    icon: CogIcon,
-    title: 'Account',
-    items: [
-      {
-        href: '/dashboard/account',
-        title: 'General Settings'
-      },
-      {
-        href: '/dashboard/account/notifications',
-        title: 'Notifications'
-      }
-    ]
-  },
-  {
-    icon: OfficeBuildingIcon,
-    title: 'Organization',
-    items: [
-      {
-        href: '/dashboard/organization',
-        title: 'General Settings'
-      },
-      {
-        href: '/dashboard/organization/team',
-        title: 'Team'
-      },
-      {
-        href: '/dashboard/organization/billing',
-        title: 'Billing'
-      }
-    ]
-  },
-  {
-    icon: ColorSwatchIcon,
-    title: 'Foundation',
-    items: [
-      {
-        href: '/dashboard/foundation/typography',
-        title: 'Typography'
-      },
-      {
-        href: '/dashboard/foundation/colors',
-        title: 'Colors'
-      },
-      {
-        href: '/dashboard/foundation/shadows',
-        title: 'Shadows'
-      },
-      {
-        href: '/dashboard/foundation/buttons',
-        title: 'Buttons'
-      },
-      {
-        href: '/dashboard/foundation/inputs',
-        title: 'Inputs'
-      },
-      {
-        href: '/dashboard/foundation/tables',
-        title: 'Tables'
-      },
-      {
-        href: '/dashboard/foundation/blank-page',
-        title: 'Blank Page'
-      }
-    ]
-  },
-  {
-    icon: TemplateIcon,
-    title: 'Components',
-    items: [
-      {
-        href: '/dashboard/components/onboarding',
-        title: 'Onboarding'
-      },
-      {
-        href: '/dashboard/components/empty-states',
-        title: 'Data States'
-      },
-      {
-        href: '/dashboard/components/property-lists',
-        title: 'Lists'
-      },
-      {
-        href: '/dashboard/components/stats',
-        title: 'Data Stats'
-      },
-      {
-        href: '/dashboard/components/page-headings',
-        title: 'Page Headers'
-      },
-      {
-        href: '/dashboard/components/card-headings',
-        title: 'Card Headers'
-      },
-      {
-        href: '/dashboard/components/image-uploader',
-        title: 'Image Uploader'
-      }
-    ]
-  },
-  {
-    icon: DocumentTextIcon,
-    title: 'Documentation',
-    href: '/docs',
-    external: true
-  }
 ];
 
 export const DashboardSidebar = (props) => {

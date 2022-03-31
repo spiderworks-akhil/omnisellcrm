@@ -23,7 +23,7 @@ export const LeadRequirement = (props) => {
 
     const handlePageChange = (event, value) => { setPageNumber(value) }
     const handleDelete = async () => { await fetchCalls(); }
-    const handleEdit = (id) => { props.onCallEdit(id); }
+    const handleEdit = (id) => { props.onRequirementEdit(id); }
 
     useEffect(()=>{
         fetchCalls();

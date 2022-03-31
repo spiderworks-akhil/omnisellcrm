@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 import {
@@ -7,11 +7,11 @@ import {
   TimelineContent,
   TimelineDot,
   TimelineItem
-} from '@material-ui/lab';
+} from '@mui/lab';
 import { Check as CheckIcon } from '../../icons/check';
 
 const getDotStyles = (value) => {
-  if (value === 'complete') {
+  if (value === 1) {
     return {
       backgroundColor: 'success.main',
       borderColor: 'success.main',
@@ -62,6 +62,10 @@ export const OrderTimeline = (props) => {
   const { status, ...other } = props;
   const items = getItems(status);
 
+  useEffect(()=> {
+    console.log("props.stages", props.stages)
+  },[props.stages])
+
   return (
     <Timeline
       sx={{
@@ -70,8 +74,8 @@ export const OrderTimeline = (props) => {
       }}
       {...other}
     >
-      {items.map((item, index) => (
-        <Fragment key={item.title}>
+      {props.stages.map((item, index) => (
+        <Fragment key={item.id}>
           <TimelineItem
             sx={{
               alignItems: 'center',
@@ -83,7 +87,7 @@ export const OrderTimeline = (props) => {
           >
             <TimelineDot
               sx={{
-                ...(getDotStyles(item.value)),
+                ...getDotStyles(item.is_finished),
                 alignSelf: 'center',
                 boxShadow: 'none',
                 flexShrink: 0,
@@ -91,12 +95,9 @@ export const OrderTimeline = (props) => {
                 width: 36,
                 m: 0
               }}
-              variant={(item.value === 'complete' || item.value === 'active')
-                ? 'filled'
-                : 'outlined'}
+              variant={((item.is_current) === 1) ? 'filled' : 'outlined'}
             >
-              {(item.value === 'complete' || item.value === 'active')
-              && <CheckIcon />}
+              {(parseInt(item.is_current) === 1) && <CheckIcon />}
             </TimelineDot>
             <TimelineContent>
               <Typography
@@ -105,11 +106,11 @@ export const OrderTimeline = (props) => {
                   : 'textSecondary'}
                 variant="overline"
               >
-                {item.title}
+                {item.name}
               </Typography>
             </TimelineContent>
           </TimelineItem>
-          {items.length > index + 1 && (
+          {props.stages.length > index + 1 && (
             <TimelineConnector
               sx={{
                 backgroundColor: 'neutral.200',

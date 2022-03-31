@@ -13,12 +13,11 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {LoadingButton} from "@mui/lab";
-import {Leads} from "../../../api/Endpoints/Leads";
 import toast from "react-hot-toast";
-import {Link} from "react-router-dom";
 import DynamicChip from "../../../utils/DynamicChip";
 import DateTime from "../../Form/DateTime";
 import {FormHelpers} from "../../../helpers/FormHelpers";
+import {CallLogs} from "../../../api/Endpoints/CallLogs";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -69,9 +68,9 @@ const LeadAddCall = (props) => {
 
         let action;
         if(props.callId){
-            action =Leads.updateCallLogDetails(dataToSubmit);
+            action =CallLogs.update(dataToSubmit);
         }else{
-            action =Leads.addCallLogToLead(dataToSubmit);
+            action =CallLogs.add(dataToSubmit);
         }
 
         action.then(response => {
@@ -91,7 +90,7 @@ const LeadAddCall = (props) => {
 
     const fetchCallLogDetails = () => {
         setIsLoading(true)
-        Leads.getCallLogDetails({call_log_id: props.callId}).then(response => {
+        CallLogs.getDetails({call_log_id: props.callId}).then(response => {
             setValue('call_time',response.data.data.call_time);
             setValue('duration',response.data.data.duration);
             setValue('note',response.data.data.note);

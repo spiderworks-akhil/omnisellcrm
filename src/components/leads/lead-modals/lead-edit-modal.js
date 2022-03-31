@@ -57,7 +57,7 @@ const LeadEditModal = (props) => {
 
     const scheme = yup.object().shape({
         name: yup.string().required(),
-        company_name: yup.string().required(),
+        company_name: yup.string().nullable(),
         phone_number: yup.string().ensure().when("email",{
             is: "",
             then:  yup.string().required("Phone number is required when email is not present.")

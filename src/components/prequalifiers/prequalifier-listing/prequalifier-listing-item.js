@@ -2,7 +2,7 @@ import React from 'react';
 import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 import {deepPurple} from "@mui/material/colors";
 
-const LeadListingItem = (props) => {
+const PrequalifierListingItem = (props) => {
     const handleOnClick = () => {props.onLeadChange(props.id)}
 
     return (
@@ -17,4 +17,4 @@ const LeadListingItem = (props) => {
     );
 };
 
-export default LeadListingItem;
+export default PrequalifierListingItem;

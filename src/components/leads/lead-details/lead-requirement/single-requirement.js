@@ -6,11 +6,18 @@ import toast from "react-hot-toast";
 import {Leads} from "../../../../api/Endpoints/Leads";
 import LeadAddCall from "../../lead-modals/lead-add-call";
 import {green, grey} from "@mui/material/colors";
+import RequirementToWorkorderModal from "../lead-workorder/requirement-to-workorder-modal";
+import LeadAddRequirement from "../../lead-modals/lead-add-requirement";
 
 const SingleCall = (props) => {
     const [open, setOpen] = useState(false);
     const handleShow = () => {setOpen(true)}
     const handleClose = () => {setOpen(false)}
+
+    //Covert to  work order
+    const [openCovert, setOpenCovert] = useState(false);
+    const handleCovertShow = () => {setOpenCovert(true)}
+    const handleCovertClose = () => {setOpenCovert(false)}
 
     const [isDeleted, setIsDeleted] = useState(false)
 
@@ -27,8 +34,14 @@ const SingleCall = (props) => {
         props.onEdit(props.id);
     }
 
+    const handleConvertToWorkOrderShow = () => {
+        handleCovertShow();
+    }
+
     return (
         <>
+            <RequirementToWorkorderModal requirementId={props.id} isShow={openCovert} onHandleClose={handleCovertClose} leadId={props.leadId}/>
+
             {!isDeleted ?
                 <ListItem
                     sx={{
@@ -41,7 +54,7 @@ const SingleCall = (props) => {
                                   message="Are you sure you want to delete this log?. This action is not reversible"
                                   onConfirm={handleDeleteConfirmation}/>
 
-                    {props.status === "close" ?
+                    {parseInt(props.status) === 2 ?
                         <Avatar
                             sx={{bgcolor: grey[500], color: grey["A100"]}}
                             alt="Closed"
@@ -100,6 +113,14 @@ const SingleCall = (props) => {
                             Created by {props.user} {formatDistanceToNow(new Date(props.time), {addSuffix: true})}
                             </Typography>
                             <Box sx={{flexGrow: 1}}/>
+                            <Button
+                                color="success"
+                                size="small"
+                                variant="text"
+                                onClick={handleConvertToWorkOrderShow}
+                            >
+                                Convert to work order
+                            </Button>
                             <Button
                                 color="primary"
                                 size="small"

@@ -59,8 +59,9 @@ const LeadDetail = (props) => {
         setOpenCallModal(true);
     }
     const handleRequirementEdit = (requirementId_) => {
+        setRefresh(Math.random)
         setRequirementId(requirementId_);
-        setOpenCallModal(true);
+        setOpenRequirementModal(true);
     }
 
     const tabs = [

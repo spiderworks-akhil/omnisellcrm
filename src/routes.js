@@ -11,6 +11,12 @@ import {Reports} from "./containers/reports";
 
 import {ProductsSummary} from "./components/product/products-summary";
 import LeadIndex from "./components/leads/lead-index";
+import PreQualifierIndex from "./components/prequalifiers";
+import LeadFilterIndex from "./components/lead-filter";
+import LabelIndex from "./components/label";
+import MyLeads from "./components/my-leads";
+import ClosedLeads from "./components/closed-leads";
+import DashboardIndex from "./components/dashboard";
 
 const Loadable = (Component) => (props) => (
   <Suspense fallback={<LoadingScreen />}>
@@ -24,9 +30,6 @@ const NotFound = Loadable(lazy(() => import('./containers/not-found').then((modu
 // Auth pages
 const Login = Loadable(lazy(() => import('./containers/login').then((module) => ({ default: module.Login }))));
 
-// Dashboard pages
-const ReportsOverview = Loadable(lazy(() => import('./containers/reports-overview').then((module) => ({ default: module.ReportsOverview }))));
-const ReportsSales = Loadable(lazy(() => import('./containers/reports-sales').then((module) => ({ default: module.ReportsSales }))));
 
 const Products = Loadable(lazy(() => import('./containers/products').then((module) => ({ default: module.Products }))));
 
@@ -60,17 +63,7 @@ const routes = [
             },
             {
                 path: 'reports',
-                element: <Reports />,
-                children: [
-                    {
-                        path: '',
-                        element: <ReportsOverview />
-                    },
-                    {
-                        path: 'sales',
-                        element: <ReportsSales />
-                    }
-                ]
+                element: <DashboardIndex />
             },
             {
                 path: 'products',
@@ -84,12 +77,27 @@ const routes = [
             {
                 path: 'leads',
                 element: <LeadIndex />,
-                children: [
-                    {
-                        path: 'details',
-                        element: <LeadIndex />
-                    },
-                ]
+            },
+            {
+                path: 'pre-qualifiers',
+                element: <PreQualifierIndex />,
+            },
+            {
+                path: 'lead-filter',
+                element: <LeadFilterIndex />,
+            },
+            {
+                path: 'labels',
+                element: <LabelIndex />,
+            },
+            {
+                path: 'mine',
+                element: <MyLeads />,
+            },
+            ,
+            {
+                path: 'closed',
+                element: <ClosedLeads />,
             },
         ]
     },

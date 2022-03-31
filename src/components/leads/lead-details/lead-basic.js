@@ -8,6 +8,11 @@ import { Eye as EyeIcon } from '../../../icons/eye';
 import {LeadDetails} from "../../../api/Lists/LeadDetails";
 import {deepOrange} from "@mui/material/colors";
 import LeadEditModal from "../lead-modals/lead-edit-modal";
+import LeadSaveContactModal from "./lead-basic/lead-save-contact-modal";
+import ContactCard from "./lead-basic/contact-card";
+import {LeadStages} from "./lead-stages";
+import Labels from "./lead-basic/labels";
+
 
 
 export const LeadBasic = (props) => {
@@ -17,8 +22,16 @@ export const LeadBasic = (props) => {
     const handleClose = () => { setOpen(false);};
     //ends
 
+    //edit modal save contact control
+    const [openContcatModal, setOpenContcatModal] = useState(false);
+    const handleClickOpenContcatModal = () => { setOpenContcatModal(true); };
+    const handleContcatModalClose = (id) => {  setOpenContcatModal(false); };
+    //ends
+    const handleContactEdit = (id) => {setContactId(id); handleClickOpenContcatModal(); };
+
     const [state, setState] = useState(false);
     const [leadData , setLeadData] = useState();
+    const [contactID , setContactId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     let showFields = [
         {key: "name", label : "Name"},
@@ -53,6 +66,7 @@ export const LeadBasic = (props) => {
 
     return (
         <Grid container sx={{p:1,m:0}}>
+            <LeadSaveContactModal contactId={contactID} isShow={openContcatModal} onLeadUpdate={leadUpdateHandler} onHandleClose={handleContcatModalClose} leadId={props.leadId}/>
             <LeadEditModal isShow={open} onLeadUpdate={leadUpdateHandler} onHandleClose={handleClose} leadId={props.leadId}/>
             {isLoading?
                 <Skeleton variant="rectangular" width={'100%'} height={300} animation="wave"/>
@@ -131,15 +145,28 @@ export const LeadBasic = (props) => {
 
                             <Divider />
                             <ActionList>
-                                <ActionListItem
-                                    icon={EyeIcon}
-                                    label="Save Contact"
-                                />
+                                {leadData.contact ? <></>:
+                                    <ActionListItem
+                                        onClick={handleClickOpenContcatModal}
+                                        icon={EyeIcon}
+                                        label="Save Contact"
+                                    />
+                                }
                             </ActionList>
                         </Card>
+                        {leadData.contact?
+                            <Grid item xs={6} sx={{mt:2}}>
+                                <ContactCard contactDetails={leadData.contact} onEdit={handleContactEdit} />
+                            </Grid>
+                            :
+                            <></>
+                        }
+
+
                     </Grid>
                     <Grid item xs={3}>
-
+                        <Labels leadId={leadData.id}/>
+                        <LeadStages leadId={leadData.id}/>
                     </Grid>
                 </>
             }

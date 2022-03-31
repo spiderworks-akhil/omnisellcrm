@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Leads} from "../../../api/Endpoints/Leads";
 import {Grid, Pagination, Skeleton} from "@mui/material";
-import SingleActivity from "./lead-activity/single-activity";
 import SingleCall from "./lead-call/single-call";
 import NoDataAvailableYet from "../../../utils/NoDataAvailableYet";
-import LeadAddCall from "../lead-modals/lead-add-call";
+import {CallLogs} from "../../../api/Endpoints/CallLogs";
 
 export const LeadCalls = (props) => {
     const [itemList , setItemList] = useState([]);
@@ -12,7 +10,7 @@ export const LeadCalls = (props) => {
     const [pageNumber, setPageNumber] = useState(1);
 
     const fetchCalls = () => {
-        Leads.getCallLogsOFLeads({leads_id:props.leadId,limit:5,page:pageNumber}).then(response => {
+        CallLogs.get({leads_id:props.leadId,limit:5,page:pageNumber}).then(response => {
             setItemList(response.data.data);
             if(response.data.data.data.length === 0 && pageNumber !== 1){
                 setPageNumber(pageNumber-1)

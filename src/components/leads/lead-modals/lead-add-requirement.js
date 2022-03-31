@@ -13,13 +13,10 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {LoadingButton} from "@mui/lab";
-import {Leads} from "../../../api/Endpoints/Leads";
 import toast from "react-hot-toast";
-import {Link} from "react-router-dom";
 import DynamicChip from "../../../utils/DynamicChip";
-import DateTime from "../../Form/DateTime";
-import {FormHelpers} from "../../../helpers/FormHelpers";
 import {Lists} from "../../../api/Lists/Lists";
+import {Requirement} from "../../../api/Endpoints/Requirement";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -69,17 +66,18 @@ const LeadAddRequirement = (props) => {
         }
 
         let action;
-        if(props.callId){
-            action =Leads.updateRequirementDetails(dataToSubmit);
+        if(props.requirementId){
+            action =Requirement.update(dataToSubmit);
         }else{
-            action =Leads.addRequirementToLead(dataToSubmit);
+            action =Requirement.add(dataToSubmit);
         }
 
         action.then(response => {
+            console.log(dataToSubmit)
             setFormButtonStatus({label: "Submitted", loading : false,disabled: true});
             setAlerts({ active: true, message: response.data.message , type: response.data.status })
             props.onCallUpdate();
-            if(props.callId){fetchRequirementDetails();}else{ reset();}
+            if(props.requirementId){fetchRequirementDetails();}else{ reset();}
             setFormButtonStatus({label: "Create", loading : false,disabled: false});
             setTimeout(()=>{setAlerts({})},2000)
         }).catch(errors => {
@@ -92,18 +90,18 @@ const LeadAddRequirement = (props) => {
 
     const fetchRequirementDetails = () => {
         setIsLoading(true)
-        Leads.getRequirementDetails({requirement_id: props.requirementId}).then(response => {
-            setValue('call_time',response.data.data.call_time);
-            setValue('duration',response.data.data.duration);
-            setValue('note',response.data.data.note);
+        Requirement.getDetails({requirement_id: props.requirementId}).then(response => {
+            setValue('title',response.data.data.title);
+            setValue('description',response.data.data.description);
+            setValue('priority',parseInt(response.data.data.priority));
+            setValue('status',parseInt(response.data.data.status));
             setIsLoading(false);
         })
     }
-
     useEffect(()=> {
         props.isShow? setOpen(true) : setOpen(false);
-        if(props.callId){    fetchRequirementDetails(); setIsEdit(true) }else{reset(); setIsLoading(false); setValue('priority', 2); setValue('status', 1)}
-    },[props.isShow,props.callId])
+        if(props.requirementId){ fetchRequirementDetails(); setIsEdit(true) }else{reset(); setIsLoading(false); setValue('priority', 2); setValue('status', 1)}
+    },[props.isShow,props.requirementId])
 
 
     const handlePriorityChange = (priority) => { setValue('priority', priority)};

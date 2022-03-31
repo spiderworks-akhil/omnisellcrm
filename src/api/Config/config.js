@@ -13,6 +13,7 @@ apiClient.interceptors.request.use((config) => {
         config.params = {
             api_token: localStorage.getItem('accessToken'),
             lead_type_id: localStorage.getItem('leadType'),
+            lead_types_id: localStorage.getItem('leadType'),
             ...config.params,
         };
         return ({

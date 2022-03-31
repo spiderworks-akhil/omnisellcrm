@@ -44,3 +44,7 @@
 .css-pqnk8b-MuiButtonBase-root-MuiIconButton-root{
   margin: 0 !important;
 }
+
+.MuiSelect-select{
+  padding: 10px !important;
+}
