@@ -10,14 +10,15 @@ import {
 } from "@mui/material";
 import TextInput from "./../Form/TextInput";
 import {LoadingButton} from "@mui/lab";
-import { Link as BrowserLink } from 'react-router-dom';
+import {Link as BrowserLink, useNavigate} from 'react-router-dom';
 import {useAuth} from "../../hooks/use-auth";
 import toast from "react-hot-toast";
 
 
-export const LoginJwt = () => {
+export const LoginJwt = (props) => {
   let isMounted = true
   const { login } = useAuth();
+  const navigate = useNavigate();
   //component variables
   const [formButtonStatus, setFormButtonStatus] = useState({
     label: "Login",
@@ -38,7 +39,7 @@ export const LoginJwt = () => {
 
     try {
       await login(data.email, data.password).then(()=> {
-       
+
           setFormButtonStatus({label: "Login", loading : false,disabled: false});
 
       });
@@ -50,6 +51,10 @@ export const LoginJwt = () => {
     }
 
   };
+
+  const handleForgotPassword = () => {
+    navigate('/forgot-password')
+  }
 
   useEffect(()=> {
 
@@ -84,7 +89,7 @@ export const LoginJwt = () => {
           item
           xs={12}
         >
-          <TextInput control={control} name="email" label="Full name" value={watch('email')}  />
+          <TextInput control={control} name="email" label="Email address" value={watch('email')}  />
         </Grid>
         <Grid
           item
@@ -106,8 +111,7 @@ export const LoginJwt = () => {
         >
           <Button
             color="primary"
-            component={BrowserLink}
-            to="/password-recovery"
+            onClick={handleForgotPassword}
             variant="text"
           >
             Forgot password
@@ -118,3 +122,4 @@ export const LoginJwt = () => {
     </form>
   );
 };
+

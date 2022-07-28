@@ -11,6 +11,14 @@ import LeadAddModal from "./lead-modals/lead-add-modal";
 import LeadAddCall from "./lead-modals/lead-add-call";
 import LeadEditModal from "./lead-modals/lead-edit-modal";
 import LeadAddRequirement from "./lead-modals/lead-add-requirement";
+import {User} from "../../icons/user";
+import AssignUserToLeadModal from "./lead-details/lead-basic/assign-user-to-lead-modal";
+import LeadAddTeamMember from "./lead-modals/lead-add-team-member";
+import {LeadTeam} from "./lead-details/lead-team";
+import LeadAddEditDemo from "./lead-details/lead-demo/add-edit-demo";
+import {LeadDemo} from "./lead-details/lead-demo";
+import LeadAddEditNote from "./lead-details/lead-notes/add-edit-note";
+import {LeadNote} from "./lead-details/lead-note";
 
 
 const Loadable = (Component) => (props) => (
@@ -45,13 +53,40 @@ const LeadDetail = (props) => {
         const handleCallClose = () => { setOpenCallModal(false);setRefresh(Math.random)};
     //ends
 
+
+    //edit modal popup control
+    const [openDemoModal, setOpenDemoModal] = useState(false);
+    const handleDemoClickOpen = () => { setRefresh(Math.random); setDemoId(false);setOpenDemoModal(true); };
+    const handleDemoClose = () => { setOpenDemoModal(false);setRefresh(Math.random)};
+    //ends
+
+    //edit modal popup control
+    const [openNoteModal, setOpenNoteModal] = useState(false);
+    const handleNoteClickOpen = () => { setRefresh(Math.random); setNoteId(false);setOpenNoteModal(true); };
+    const handleNoteClose = () => { setOpenNoteModal(false);setRefresh(Math.random)};
+    //ends
+
     //edit modal popup control
     const [openRequirementModal, setOpenRequirementModal] = useState(false);
     const handleRequirementClickOpen = () => { setRefresh(Math.random); setRequirementId(false);setOpenRequirementModal(true); };
     const handleRequirementClose = () => { setOpenRequirementModal(false);setRefresh(Math.random)};
     //ends
 
+    //AddToUser modal popup control
+    const [openAddToUserModal, setOpenAddToUserModal] = useState(false);
+    const handleAddToUserClickOpen = () => { setRefresh(Math.random);setOpenAddToUserModal(true); };
+    const handleAddToUserClose = () => { setOpenAddToUserModal(false);setRefresh(Math.random)};
+    //ends
+
+    //Team member modal popup control
+    const [openAddTeamMemberModal, setOpenAddTeamMemberModal] = useState(false);
+    const handleAddTeamMemberClickOpen = () => { setRefresh(Math.random);setOpenAddTeamMemberModal(true); };
+    const handleAddTeamMemberClickClose = () => { setOpenAddTeamMemberModal(false);setRefresh(Math.random)};
+    //ends
+
     const [callId, setCallID] = useState(false);
+    const [demoId, setDemoId] = useState(false);
+    const [noteId, setNoteId] = useState(false);
     const [requirementId, setRequirementId] = useState(false);
 
     const handleCallEdit = (callId_) => {
@@ -63,6 +98,26 @@ const LeadDetail = (props) => {
         setRequirementId(requirementId_);
         setOpenRequirementModal(true);
     }
+
+    const handleTeamEdit = (requirementId_) => {
+        setRefresh(Math.random)
+        setRequirementId(requirementId_);
+        setOpenRequirementModal(true);
+    }
+
+    const handleDemoEdit = (id) => {
+        setRefresh(Math.random)
+        setDemoId(id);
+        setOpenDemoModal(true);
+    }
+
+    const handleNoteEdit = (id) => {
+        setRefresh(Math.random)
+        setNoteId(id);
+        setOpenNoteModal(true);
+    }
+
+
 
     const tabs = [
         {
@@ -76,6 +131,18 @@ const LeadDetail = (props) => {
         {
             component: <LeadCalls leadId={leadId} onCallEdit={handleCallEdit}/>,
             label: 'Calls'
+        },
+        {
+            component: <LeadNote leadId={leadId} onNoteEdit={handleNoteEdit}/>,
+            label: 'Notes'
+        },
+        {
+            component: <LeadDemo leadId={leadId} onDemoEdit={handleDemoEdit}/>,
+            label: 'Follow Up'
+        },
+        {
+            component: <LeadTeam leadId={leadId} onCallEdit={handleTeamEdit}/>,
+            label: 'Team'
         },
         {
             component: <LeadRequirement leadId={leadId} onRequirementEdit={handleRequirementEdit} />,
@@ -110,7 +177,11 @@ const LeadDetail = (props) => {
 
 
     const callUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Calls'))) }
+    const demoUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Follow Up'))) }
+    const noteUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Notes'))) }
     const requirementUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Requirement'))) }
+    const AddToUserUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Overview'))) }
+    const TeamMemberUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Team'))) }
 
     useEffect(()=>{
         setLeadId(props.leadId);
@@ -120,7 +191,36 @@ const LeadDetail = (props) => {
         <>{parseInt(leadId) > 0 ?
                 <Card variant="outlined">
                     <LeadAddCall key={refresh} callId={callId} isShow={openCallModal} onCallUpdate={callUpdateHandler} onHandleClose={handleCallClose} leadId={props.leadId}/>
+                    <LeadAddEditDemo
+                        key={refresh*5}
+                        editId={demoId}
+                        isShow={openDemoModal}
+                        onDemoUpdate={demoUpdateHandler}
+                        onHandleClose={handleDemoClose}
+                        leadId={props.leadId}/>
+
+                    <LeadAddEditNote
+                        key={refresh*6}
+                        editId={noteId}
+                        isShow={openNoteModal}
+                        onDemoUpdate={noteUpdateHandler}
+                        onHandleClose={handleNoteClose}
+                        leadId={props.leadId}
+                    />
+
                     <LeadAddRequirement key={refresh*2} requirementId={requirementId} isShow={openRequirementModal} onCallUpdate={requirementUpdateHandler} onHandleClose={handleRequirementClose} leadId={props.leadId}/>
+                    <AssignUserToLeadModal
+                        key={refresh*3}
+                        isShow={openAddToUserModal}
+                        onHandleClose={handleAddToUserClose}
+                        onUserAssigned={AddToUserUpdateHandler}
+                        leadId={props.leadId}/>
+                    <LeadAddTeamMember
+                        key={refresh*4}
+                        isShow={openAddTeamMemberModal}
+                        onHandleClose={handleAddTeamMemberClickClose}
+                        onTeamUpdate={TeamMemberUpdateHandler}
+                        leadId={props.leadId}/>
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider',px:2 }} >
                         <Tabs value={activeTab} onChange={handleChange} aria-label="basic tabs example" >
@@ -133,8 +233,11 @@ const LeadDetail = (props) => {
                     <Card sx={{m:1,p:1}}>
                         <Grid sx={{width:"100%"}} container justifyContent="flex-end">
                             <Button onClick={handleCallClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add call</Button>
+                            <Button onClick={handleDemoClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add Follow Up</Button>
+                            <Button onClick={handleNoteClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<StickyNote2TwoToneIcon  />}>Add Notes</Button>
                             <Button onClick={handleRequirementClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add Requirement</Button>
-                            <Button size="small" sx={{mr:1}} variant="outlined" startIcon={<StickyNote2TwoToneIcon  />}>Add Notes</Button>
+                            <Button onClick={handleAddToUserClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Assign to a User</Button>
+                            <Button onClick={handleAddTeamMemberClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Add team member</Button>
                             <Button size="small" sx={{mr:1}} variant="outlined" startIcon={<CalendarMonthTwoToneIcon />}>Create a Meeting</Button>
                         </Grid>
                     </Card>

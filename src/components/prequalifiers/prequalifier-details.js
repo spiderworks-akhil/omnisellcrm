@@ -13,6 +13,7 @@ import {Delete, NetworkCheck} from "@mui/icons-material";
 import {Check} from "../../icons/check";
 import ConfirmAlert from "../../utils/ConfirmAlert";
 import {Leads} from "../../api/Endpoints/Leads";
+import {format, parseISO} from "date-fns";
 
 const PrequalifierDetails = (props) => {
 
@@ -138,6 +139,15 @@ const PrequalifierDetails = (props) => {
                                     </IconButton>
                                 </Box>
                                 <Grid container>
+                                    <Grid item xs={12}>
+                                        <PropertyList>
+                                            <PropertyListItem
+                                                divider
+                                                label={"Pre qualifier created date"}
+                                                value={format(parseISO(leadData?.created_at), 'do MMM yyyy')}
+                                            />
+                                        </PropertyList>
+                                    </Grid>
                                     <Grid item xs={6}>
                                         <PropertyList>
                                             {showFields.map((key,index) => {

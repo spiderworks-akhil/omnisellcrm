@@ -12,9 +12,11 @@ import { usePopover } from '../hooks/use-popover';
 import { Selector as SelectorIcon } from '../icons/selector';
 import {useEffect, useState} from "react";
 import {useAppSettings} from "../hooks/use-app-settings";
+import {useNavigate} from "react-router-dom";
 
 export const OrganizationPopover = (props) => {
   const appSettings = useAppSettings();
+  const navigate = useNavigate();
   const [currentOrganization, setCurrentOrganization] = useState(appSettings.get_lead_type());
   const { organizations, sx, ...other } = props;
   const [anchorRef, open, handleOpen, handleClose] = usePopover();
@@ -28,7 +30,6 @@ export const OrganizationPopover = (props) => {
 
   useEffect(()=> {
       setCurrentOrganization(appSettings.get_lead_type());
-
   },[currentOrganization])
 
   return (
@@ -56,7 +57,7 @@ export const OrganizationPopover = (props) => {
               }}
               variant="subtitle2"
           >
-              {organizations.filter(obj => obj.id === parseInt(currentOrganization))[0].name}
+              {organizations.filter(obj => obj.id === parseInt(appSettings.get_lead_type()))[0]?.name}
           </Typography>: ""}
 
         <Box sx={{ flexGrow: 1 }} />
@@ -86,7 +87,7 @@ export const OrganizationPopover = (props) => {
                       <ListItemText primary={organization.name} />
                   </ListItem>
               ))}
-          </List> : ""}
+          </List> : "Na"}
 
       </Popover>
     </>

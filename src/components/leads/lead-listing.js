@@ -45,8 +45,7 @@ const LeadListing = (props) => {
 
     useEffect( async ()=>{
         await fetchLeadList();
-        isMounted = true;
-    },[searchKeyword, listType, pageNumber])
+    },[searchKeyword, listType, pageNumber, props.activeLeadId])
 
 
 
@@ -60,7 +59,11 @@ const LeadListing = (props) => {
 
             {typeof leadList.data === "object"?
                 leadList.data.map((obj,index)=> {
-                    return  <LeadListingItem active={selectedLeadId} onLeadChange={handleLeadClick} name={obj.name} id={obj.id} key={index} />;
+                    return  <LeadListingItem active={selectedLeadId} onLeadChange={handleLeadClick}
+                                             title={obj.company_name}
+                                             name={obj.name}
+                                             created_at={obj.created_at}
+                                             id={obj.id} key={index} />;
                 })
                 :
                 <Skeleton animation="wave"  height={400}/>

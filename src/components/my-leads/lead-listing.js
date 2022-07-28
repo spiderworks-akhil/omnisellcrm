@@ -49,7 +49,9 @@ const LeadListing = (props) => {
                 <>
                     {leadList.data.length !== 0 ?
                         leadList.data.map((obj,index)=> {
-                            return  <LeadListingItem active={selectedLeadId} onLeadChange={handleLeadClick} name={obj.name} id={obj.id} key={index} />;
+                            return  <LeadListingItem active={selectedLeadId} onLeadChange={handleLeadClick}  title={obj.company_name}
+                                                     name={obj.name}
+                                                     created_at={obj.created_at} id={obj.id} key={index} />;
                         })
                         :
                         <NoDataAvailableYet message ="No leads found for this search" />

@@ -23,18 +23,11 @@ import { Logout as LogoutIcon } from '../icons/logout';
 import { OfficeBuilding as OfficeBuildingIcon } from '../icons/office-building';
 import { User as UserIcon } from '../icons/user';
 import { lightNeutral } from '../colors';
+import {useEffect, useState} from "react";
+import {Users} from "../api/Endpoints/Users";
+import ColoredAvatar from "../utils/ColoredAvatar";
+import AccountPopoverSingleOrganization from "./top-bar/account-popover-single-organization";
 
-const languageOptions = {
-  en: {
-    label: 'English'
-  },
-  de: {
-    label: 'German'
-  },
-  es: {
-    label: 'Spanish'
-  }
-};
 
 export const AccountPopover = (props) => {
   const {
@@ -51,12 +44,26 @@ export const AccountPopover = (props) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [anchorRef, open, handleOpen, handleClose] = usePopover();
-
-  const handleOrganizationChange = (event) => {
-    onOrganizationChange?.(event.target.value);
-  };
+  const [userData, setUserData] = useState();
+  const [organizationsData, setOrganizationsData] = useState();
 
 
+  const fetchUserData = () => {
+    Users.me().then(response => {
+      setUserData(response.data.data)
+    })
+  }
+
+  const fetchUserOrganizations = () => {
+    Users.getOrganisations().then(response => {
+      setOrganizationsData(response.data.data)
+    })
+  }
+
+  const handleOrganizationChange = () => {
+      handleClose();
+      props.onOrganizationChange();
+  }
 
   const handleLogout = async () => {
     try {
@@ -68,6 +75,11 @@ export const AccountPopover = (props) => {
       toast.error('Something went wrong');
     }
   };
+
+  useEffect(() => {
+    fetchUserData();
+    fetchUserOrganizations();
+  },[])
 
   return (
     <>
@@ -82,14 +94,7 @@ export const AccountPopover = (props) => {
         }}
         {...other}
       >
-        <Avatar
-          src="/static/user-chen_simmons.png"
-          variant="rounded"
-          sx={{
-            height: 40,
-            width: 40
-          }}
-        />
+
         <Box
           sx={{
             alignItems: 'center',
@@ -109,13 +114,13 @@ export const AccountPopover = (props) => {
               }}
               variant="caption"
             >
-              Operation
+              {userData?.email}
             </Typography>
             <Typography
               sx={{ color: 'primary.contrastText' }}
               variant="subtitle2"
             >
-              Chen Simmons
+              {userData?.name}
             </Typography>
           </div>
           <ChevronDownIcon
@@ -143,109 +148,25 @@ export const AccountPopover = (props) => {
           }
         }}
       >
-        <InputField
-          fullWidth
-          onChange={handleOrganizationChange}
-          select
-          SelectProps={{ native: true }}
-          value={currentOrganization.id}
-          sx={{
-            display: {
-              md: 'none'
-            },
-            pt: 2,
-            px: 2
-          }}
-        >
-          {organizations.map((organization) => (
-            <option
-              key={organization.id}
-              value={organization.id}
-            >
-              {organization.name}
-            </option>
-          ))}
-        </InputField>
+
         <List>
           <ListItem divider>
             <ListItemAvatar>
-              <Avatar
-                variant="rounded"
-                src="/static/user-chen_simmons.png"
-              />
+              {userData?.name&& <ColoredAvatar letter={userData.name.slice(0,1)} />}
             </ListItemAvatar>
             <ListItemText
-              primary="Chen Simmons"
-              secondary="ACME Corp LLC."
+              primary={userData?.name}
+              secondary={userData?.email}
             />
           </ListItem>
-          <li>
-            <List disablePadding>
-              <ListSubheader disableSticky>
-                App Settings
-              </ListSubheader>
 
-              <ListItem
-                sx={{
-                  py: 0,
-                  display: {
-                    md: 'none',
-                    xs: 'flex'
-                  }
-                }}
-              >
-                <Switch
-                  checked={darkMode}
-                  onChange={onSwitchTheme}
-                />
-                <Typography
-                  color="textPrimary"
-                  variant="body2"
-                >
-                  Dark Mode
-                </Typography>
-              </ListItem>
-              <ListItem
-                divider
-                sx={{ pt: 0 }}
-              >
-                <Switch
-                  checked={rtlDirection}
-                  onChange={onSwitchDirection}
-                />
-                <Typography
-                  color="textPrimary"
-                  variant="body2"
-                >
-                  RTL
-                </Typography>
-              </ListItem>
-            </List>
-          </li>
-          <ListItem
-            button
-            component={RouterLink}
-            divider
-            onClick={handleClose}
-            to="/dashboard/organization"
-          >
-            <ListItemIcon>
-              <OfficeBuildingIcon />
-            </ListItemIcon>
-            <ListItemText primary="Organization" />
-          </ListItem>
-          <ListItem
-            button
-            component={RouterLink}
-            divider
-            onClick={handleClose}
-            to="/dashboard/account"
-          >
-            <ListItemIcon>
-              <UserIcon />
-            </ListItemIcon>
-            <ListItemText primary="Account" />
-          </ListItem>
+          { organizationsData &&
+            organizationsData.map(obj => {
+              return  <AccountPopoverSingleOrganization onOrganizationChange={handleOrganizationChange} key={obj.id} dataSet={obj} />
+            })
+          }
+
+
           <ListItem
             button
             onClick={handleLogout}

@@ -1,6 +1,7 @@
 import React from 'react';
-import {Avatar, List, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
-import {deepPurple} from "@mui/material/colors";
+import { List, ListItemAvatar, ListItemButton, ListItemText, Typography} from "@mui/material";
+import ColoredAvatar from "../../../utils/ColoredAvatar";
+import {formatDistance, parseISO, subDays} from "date-fns";
 
 const LeadListingItem = (props) => {
     const handleOnClick = () => {props.onLeadChange(props.id)}
@@ -9,9 +10,16 @@ const LeadListingItem = (props) => {
         <List dense={false} sx={{borderBottom:'1px solid #f0f0f0'}}  disablePadding>
             <ListItemButton onClick={handleOnClick} selected={(props.active === props.id)? true : false}>
                 <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: deepPurple[400], color: "#FFF" }} >{props.name.slice(0,1).toString().toUpperCase()}</Avatar>
+                    <ColoredAvatar letter={props.name.slice(0,1).toString().toUpperCase()}/>
                 </ListItemAvatar>
-                <ListItemText primary={props.name}/>
+                <ListItemText
+                    primary={props.name}
+                    secondary={<React.Fragment>
+                        <Typography variant={"caption"}>{props.title}</Typography>
+                    </React.Fragment>}
+                />
+                <Typography variant={"caption"}>{props?.created_at && formatDistance(parseISO(props?.created_at), new Date(), { addSuffix: true })}</Typography>
+
             </ListItemButton>
         </List>
     );

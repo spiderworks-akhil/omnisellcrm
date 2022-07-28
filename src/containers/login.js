@@ -1,17 +1,25 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Box, Card, CardContent, Container, Grid, Toolbar } from '@mui/material';
 import { ProductFeatures } from '../components/auth/product-features';
-import { LoginJwt } from '../components/auth/login-jwt';
 import { Logo } from '../components/logo';
 import {useSettings} from "../contexts/Settings/settings-context";
 import { useAuth } from '../hooks/use-auth';
+import ForgotPassword from "../components/login/forgot-password";
+import {LoginJwt} from "../components/auth/login-jwt";
+
 
 
 export const Login = () => {
   const { method } = useAuth();
   const { settings } = useSettings();
+
+
+  const handleForgotPassword = () => {
+
+
+  }
 
   useEffect(() => {
 
@@ -20,7 +28,7 @@ export const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login | Carpatin Dashboard</title>
+        <title>Login | Omnisell Dashboard</title>
       </Helmet>
       <AppBar
         elevation={0}
@@ -73,7 +81,7 @@ export const Login = () => {
                   elevation={0}
                 >
                   <CardContent>
-                    {method === 'JWT' && <LoginJwt />}
+                    {method === 'JWT' && <LoginJwt onForgotPassword={handleForgotPassword} />}
                   </CardContent>
                 </Card>
               </Grid>

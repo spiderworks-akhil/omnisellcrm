@@ -14,14 +14,14 @@ import { CustomShoppingCart as ShoppingCartIcon } from '../icons/custom-shopping
 import { CustomUsers as UsersIcon } from '../icons/custom-users';
 import { DocumentText as DocumentTextIcon } from '../icons/document-text';
 import { OfficeBuilding as OfficeBuildingIcon } from '../icons/office-building';
-import { ReceiptTax as ReceiptTaxIcon } from '../icons/receipt-tax';
+import {ReceiptTax, ReceiptTax as ReceiptTaxIcon} from '../icons/receipt-tax';
 import { Template as TemplateIcon } from '../icons/template';
 import {
-  BarChart, CurtainsClosed,
+  BarChart, CallEndOutlined, CallMissed, CurtainsClosed,
   Filter,
   Filter1Outlined,
   Filter3Rounded, ListAltOutlined,
-  SearchOff,
+  SearchOff, Settings,
   ViewListOutlined,
   YoutubeSearchedForOutlined
 } from "@mui/icons-material";
@@ -62,6 +62,21 @@ const items = [
     title: 'Closed leads',
     href: '/dashboard/closed',
   },
+  {
+    icon: CallMissed,
+    title: 'Missed Calls',
+    href: '/dashboard/missed-calls',
+  },
+  {
+    icon: CallEndOutlined,
+    title: 'Follow up',
+    href: '/dashboard/follow-up',
+  },
+  {
+    icon: Settings,
+    title: 'Settings',
+    href: '/dashboard/settings',
+  }
 ];
 
 export const DashboardSidebar = (props) => {
@@ -149,7 +164,7 @@ export const DashboardSidebar = (props) => {
           }}
         >
           <List disablePadding>
-            {activeItem && (items.map((item) => (
+            {(items.map((item) => (
               <DashboardSidebarItem
                 active={activeItem?.title === item.title}
                 activeHref={activeHref}

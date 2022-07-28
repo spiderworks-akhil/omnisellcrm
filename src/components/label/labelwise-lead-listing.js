@@ -23,7 +23,7 @@ const LabelwiseLeadListing = (props) => {
     const fetchLeadList = async () => {
         await Labels.getLeadsByLabelId({labels_id: props.labelId}).then(response => {
             console.log("fetchLeadList",response.data)
-            // setLeadList(response.data.data)
+            setLeadList(response.data.data)
         })
     }
 
