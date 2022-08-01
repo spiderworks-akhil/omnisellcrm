@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast, {LoaderIcon} from 'react-hot-toast';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { AppBar, Box, Button, Divider, IconButton, Toolbar } from '@mui/material';
+import {AppBar, Box, Button, Divider, IconButton, Toolbar, Typography} from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 import { Moon as MoonIcon } from '../icons/moon';
 import { Sun as SunIcon } from '../icons/sun';
@@ -17,10 +17,16 @@ import {useSettings} from "../contexts/Settings/settings-context";
 import {LeadTypes} from "../api/Endpoints/LeadTypes";
 import {Lists} from "../api/Lists/Lists";
 import {LoadingScreen} from "./loading-screen";
+import {LogoutOutlined} from "@mui/icons-material";
+import {useAuth} from "../hooks/use-auth";
+import {useAppSettings} from "../hooks/use-app-settings";
+import {Users} from "../api/Endpoints/Users";
 
 export const DashboardNavbar = () => {
+  const navigate = useNavigate();
+  const appSettings = useAppSettings();
   const [organizations, setOrganizations] = useState([]);
-
+  const auth = useAuth();
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const { i18n, t } = useTranslation();
   const { settings, saveSettings } = useSettings();
@@ -30,7 +36,14 @@ export const DashboardNavbar = () => {
   const [currentOrganization, setCurrentOrganization] = useState('');
 
   const fetchOrganizations = async () => {
-    await Lists.leadTypes().then(result => { setOrganizations(result); });
+      await  Users.getLeadTypeOrganisations({organisations_id: appSettings.get_organization()}).then(response => {
+          if(parseInt(response.data.error) === 801){
+              toast("error")
+              fetchOrganizations();
+          }else{
+              setOrganizations(response.data.data)
+          }
+      })
   }
   const handleSwitchTheme = () => {
     saveSettings({
@@ -50,20 +63,19 @@ export const DashboardNavbar = () => {
     setRtlDirection(settings.direction === 'rtl');
   };
 
-  const handleOrganizationChange = (organizationId) => {
-    const newOrganization = organizations.find((organization) => organization.id
-      === organizationId);
-
-    if (!newOrganization) {
-      return;
-    }
-
-    setCurrentOrganization(newOrganization);
+  const handleOrganizationChange = () => {
+      fetchOrganizations();
+      navigate('/dashboard');
   };
+
+  const handleLogOut = () => {
+      auth.logout();
+  }
 
   useEffect(()=>{
     fetchOrganizations().then(response => {
       setCurrentOrganization(organizations[0]);
+
     });
 
   },[])
@@ -71,7 +83,7 @@ export const DashboardNavbar = () => {
   return (
     <AppBar
       elevation={0}
-      sx={{ backgroundColor: '#1e212a' }}
+      sx={{ backgroundColor: appSettings.get_navbar_color() }}
     >
       <Toolbar
         disableGutters
@@ -109,7 +121,6 @@ export const DashboardNavbar = () => {
         {organizations && organizations.length ?
             <OrganizationPopover
                 organizations={organizations}
-
                 sx={{
                   display: {
                     md: 'flex',
@@ -122,6 +133,7 @@ export const DashboardNavbar = () => {
           onClose={() => setOpenMenu(false)}
           open={mdDown && openMenu}
         />
+          <Typography variant={"caption"} color={"error"}>BETA</Typography>
         <Button
           endIcon={(
             <ChevronDownIcon
@@ -162,15 +174,32 @@ export const DashboardNavbar = () => {
             ? <SunIcon />
             : <MoonIcon />}
         </IconButton>
-        <NotificationsPopover sx={{ mr: 2 }} />
-        {/*<AccountPopover*/}
-        {/*  currentOrganization={currentOrganization}*/}
-        {/*  darkMode={darkMode}*/}
-        {/*  onSwitchDirection={handleSwitchDirection}*/}
-        {/*  onSwitchTheme={handleSwitchTheme}*/}
-        {/*  organizations={organizations}*/}
-        {/*  rtlDirection={rtlDirection}*/}
-        {/*/>*/}
+
+        <IconButton
+            color="inherit"
+            onClick={handleLogOut}
+            sx={{
+              mx: 2,
+              display: {
+                md: 'inline-flex',
+                xs: 'none'
+              }
+            }}
+        >
+          <LogoutOutlined />
+        </IconButton>
+
+        {/*<NotificationsPopover sx={{ mr: 2 }} />*/}
+        <AccountPopover
+            onOrganizationChange={handleOrganizationChange}
+            content={"AA"}
+          currentOrganization={currentOrganization}
+          darkMode={darkMode}
+          onSwitchDirection={handleSwitchDirection}
+          onSwitchTheme={handleSwitchTheme}
+          organizations={organizations}
+          rtlDirection={rtlDirection}
+        />
       </Toolbar>
     </AppBar>
   );

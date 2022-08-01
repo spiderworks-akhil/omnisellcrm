@@ -1,5 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Box, Button, Card, CardHeader, Divider, Grid, IconButton, Skeleton} from "@mui/material";
+import {
+    Alert,
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardHeader,
+    Divider,
+    Grid,
+    IconButton,
+    Skeleton,
+    Typography
+} from "@mui/material";
 import {PropertyList} from "../../property-list";
 import {PropertyListItem} from "../../property-list-item";
 import {ActionList} from "../../action-list";
@@ -12,6 +24,9 @@ import LeadSaveContactModal from "./lead-basic/lead-save-contact-modal";
 import ContactCard from "./lead-basic/contact-card";
 import {LeadStages} from "./lead-stages";
 import Labels from "./lead-basic/labels";
+import FollowUp from "./lead-basic/follow-up";
+import AddReferral from "../components/add-referral";
+import {format, parse, parseISO} from "date-fns";
 
 
 
@@ -56,6 +71,16 @@ export const LeadBasic = (props) => {
         fetchLeadDetails();
     }
 
+    const notfications = () => {
+        let alerts = '';
+        if(leadData.assigned_user !== null){
+            alerts = <Alert severity="info">This lead is handling by {leadData.assigned_user.name}</Alert>;
+        }
+        return alerts;
+    }
+
+
+
     useEffect(()=>{
         setState(true);
         fetchLeadDetails();
@@ -72,6 +97,10 @@ export const LeadBasic = (props) => {
                 <Skeleton variant="rectangular" width={'100%'} height={300} animation="wave"/>
                 :
                 <>
+                    <Grid item xs={12} sx={{my:1}}>
+
+                        {notfications()}
+                    </Grid>
                     <Grid item xs={9}>
                         <Card
                             variant="outlined"
@@ -107,8 +136,25 @@ export const LeadBasic = (props) => {
                                 <IconButton color="inherit">
                                     {leadData.name}
                                 </IconButton>
+
+                                {leadData.source_type && <><Divider /><Typography variant={"subtitle2"}>{leadData.source_type?.source_type_name}</Typography></>}
+                                {leadData.referral &&
+                                    <>
+                                        <Typography variant={"subtitle2"}> ({leadData.referral?.name})</Typography>
+
+                                    </>
+                                }
                             </Box>
                             <Grid container>
+                                <Grid item xs={12}>
+                                    <PropertyList>
+                                        <PropertyListItem
+                                            divider
+                                            label={"Lead created date"}
+                                            value={format(parseISO(leadData?.created_at), 'do MMM yyyy')}
+                                        />
+                                    </PropertyList>
+                                </Grid>
                                 <Grid item xs={6}>
                                     <PropertyList>
                                         {showFields.map((key,index) => {
@@ -165,6 +211,7 @@ export const LeadBasic = (props) => {
 
                     </Grid>
                     <Grid item xs={3}>
+                        {/*<FollowUp leadId={leadData.id}/>*/}
                         <Labels leadId={leadData.id}/>
                         <LeadStages leadId={leadData.id}/>
                     </Grid>

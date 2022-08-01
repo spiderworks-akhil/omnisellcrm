@@ -20,7 +20,14 @@ const SelectInput = ({
                                fieldState: { error },
                                formState,
                            }) =>{
-                    return <Select multiple={props.ismultiple=== "false"? false : true} labelId={labelId} label={label} onChange={onChange} value={value} defaultValue={defaultValue} >
+                    return <Select
+                        multiple={props.ismultiple=== "false"? false : true}
+                        labelId={labelId}
+                        label={label}
+                        onChange={onChange}
+                        value={value}
+
+                        defaultValue={defaultValue} >
                         {children}
                     </Select>
                 }}

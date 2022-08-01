@@ -3,15 +3,17 @@ import {Box, Button, Grid, Typography} from "@mui/material";
 import {Plus} from "../../icons/plus";
 import LeadAddModal from "./lead-modals/lead-add-modal";
 
-const LeadPageHeader = () => {
+const LeadPageHeader = (props) => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => { setOpen(true); };
     const handleClose = () => { setOpen(false);};
 
+    const handleLeadUpdate = (leadId) => { props.onLeadCreate(leadId); };
+
 
     return (
         <Grid sx={{mx:2,my:2}}>
-            <LeadAddModal isShow={open} onHandleClose={handleClose} />
+            <LeadAddModal isShow={open} onHandleClose={handleClose} onLeadUpdate={handleLeadUpdate} />
             <Box>
                 <Box
                     sx={{

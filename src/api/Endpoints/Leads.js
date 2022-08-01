@@ -21,4 +21,7 @@ export const Leads = {
     addRequirementToLead: (data) => post('requirements/store', data),
     updateRequirementDetails: (data) => post('requirements/update', data),
     removeRequirement: (data) => get('requirements/delete', {params: data}),
+
+
+    getFollowUpOFLeads: (data) => get('leads/follow-up', {params: data}),
  }

@@ -21,6 +21,8 @@ import {Requirement} from "../../../../api/Endpoints/Requirement";
 import toast from "react-hot-toast";
 import SelectInput from "../../../Form/SelectInput";
 import DynamicChipInput from "../../../Form/DynamicChipInput";
+import {Account} from "../../../../api/Endpoints/Account";
+import {Team} from "../../../../api/Endpoints/Team";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -130,24 +132,36 @@ const RequirementToWorkorderModal = (props) => {
             setIsLoading(false);
         })
     }
+
+    const fetchTeamList = async () => {
+        await Team.get({leads_id: props.leadId}).then(response => {
+            console.log("fetchClientsList",response.data )
+        })
+    }
+
     useEffect(()=> {
         props.isShow? setOpen(true) : setOpen(false);
         if(props.requirementId){ fetchRequirementDetails(); setIsEdit(true) }else{reset(); setIsLoading(false); setValue('priority', 2); setValue('status', 1)}
         setValue('status',1)
         setValue('client_approval_status',1)
+        fetchTeamList();
     },[props.isShow,props.requirementId])
 
     useEffect(()=> {
         setValue('total_cost', (parseFloat(watch('rate'))*parseFloat(watch('duration'))));
         switch (watch('cost_type')) {
             case 2 : {setRateLabel("Hourly rate"); setDurationLabel("No of hours")}; break;
-            case 3 : {setRateLabel("Daily rate"); setDurationLabel("No of Days")} ;break;
+            case 3 : {setRateLabel("Daily rate"); setDurationLabel("No of Days")}; break;
             case 4 : {setRateLabel("Monthly rate"); setDurationLabel("No of Months")} ;break;
             case 5 : {setRateLabel("Quarterly rate"); setDurationLabel("No of Quarters")} ;break;
             case 6 : {setRateLabel("Yearly rate"); setDurationLabel("No of Years")} ;break;
             default: setDurationLabel("Duration");break;
         }
     },[watch('cost_type'),watch('rate'),watch('duration')])
+
+    const fetchClients = () => {
+
+    }
 
 
     const handlePriorityChange = (priority) => { setValue('priority', priority)};
@@ -169,7 +183,7 @@ const RequirementToWorkorderModal = (props) => {
                     <LinearProgress color="inherit"/>
                     :
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <DialogTitle>{isEdit ? "Edit Requirement" : "Add a Requirement"}</DialogTitle>
+                        <DialogTitle>Convert to workorder</DialogTitle>
                         <DialogContent>
                             <Scrollbar>
                                 <Grid container>

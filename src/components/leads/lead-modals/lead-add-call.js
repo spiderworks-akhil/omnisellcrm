@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const LeadAddCall = (props) => {
     const [open, setOpen] = useState(false);
-    const handleClose = () => { props.onHandleClose(false);};
+    const handleClose = () => { setOpen(false);props.onHandleClose(false);};
     const [isEdit, setIsEdit] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [dialogId, setDialogId] = useState(1);

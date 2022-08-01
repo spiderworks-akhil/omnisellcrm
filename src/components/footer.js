@@ -2,12 +2,8 @@ import { Box, Container, Link, Typography } from '@mui/material';
 
 const links = [
   {
-    label: 'About Us',
-    href: 'https://devias.io/about-us'
-  },
-  {
-    label: 'Terms',
-    href: 'https://devias.io/legal/tos'
+    label: 'SpiderWorks.in',
+    href: 'https://spiderworks.in/'
   }
 ];
 
@@ -40,7 +36,7 @@ export const Footer = () => (
         color="textSecondary"
         variant="caption"
       >
-        © 2021 Devias
+        © 2021 SpiderWorks
       </Typography>
       <Box sx={{ flexGrow: 1 }} />
       {links.map((link) => (

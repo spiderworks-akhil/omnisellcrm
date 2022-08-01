@@ -1,5 +1,6 @@
 {
-  "name": "untitled",
+  "name": "Omnisellcrm",
+  "homepage": "https://app.omnisellcrm.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-apexcharts": "^1.3.9",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.2",
     "react-helmet-async": "^1.2.3",
     "react-hook-form": "^7.27.1",

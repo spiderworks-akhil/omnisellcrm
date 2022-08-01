@@ -17,6 +17,12 @@ import LabelIndex from "./components/label";
 import MyLeads from "./components/my-leads";
 import ClosedLeads from "./components/closed-leads";
 import DashboardIndex from "./components/dashboard";
+import ForgotPassword from "./components/login/forgot-password";
+import UserSettings from "./components/user-settings";
+import FollowUpIndex from "./components/pages/follow-up/follow-up-index";
+import DemoIndex from "./components/pages/demo/demo-index";
+import LeadDetailIndex from "./components/pages/lead/lead-detail-index";
+import MissedCallIndex from "./components/pages/missed-calls/missed-call-index";
 
 const Loadable = (Component) => (props) => (
   <Suspense fallback={<LoadingScreen />}>
@@ -44,6 +50,14 @@ const routes = [
         </GuestGuard>
     )
   },
+    {
+        path: 'forgot-password',
+        element: (
+            <GuestGuard>
+                <ForgotPassword />
+            </GuestGuard>
+        )
+    },
     {
         path: 'dashboard',
         element: (
@@ -79,6 +93,10 @@ const routes = [
                 element: <LeadIndex />,
             },
             {
+                path: 'lead/:leadId',
+                element: <LeadDetailIndex />,
+            },
+            {
                 path: 'pre-qualifiers',
                 element: <PreQualifierIndex />,
             },
@@ -98,6 +116,22 @@ const routes = [
             {
                 path: 'closed',
                 element: <ClosedLeads />,
+            },
+            {
+                path: 'follow-up',
+                element: <FollowUpIndex />,
+            },
+            {
+                path: 'Demo',
+                element: <DemoIndex />,
+            },
+            {
+                path: 'missed-calls',
+                element: <MissedCallIndex />,
+            },
+            {
+                path: 'settings',
+                element: <UserSettings />,
             },
         ]
     },

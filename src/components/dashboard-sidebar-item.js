@@ -5,8 +5,10 @@ import { Button, Collapse, List, Typography } from '@mui/material';
 import { ChevronRight as ChevronRightIcon } from '../icons/chevron-right';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 import { ExternalLink as ExternalLinkIcon } from '../icons/external-link';
+import {useAppSettings} from "../hooks/use-app-settings";
 
 export const DashboardSidebarItem = (props) => {
+    const appSettings = useAppSettings();
   const {
     active,
     activeHref,
@@ -43,7 +45,7 @@ export const DashboardSidebarItem = (props) => {
               px: 1.25,
               py: 1.25,
               '& .MuiButton-startIcon': {
-                color: active ? 'primary' : 'text.secondary',
+                color: active ? appSettings.get_navbar_color() : 'text.secondary',
                 margin: 0
               },
               '& .MuiButton-endIcon': {
@@ -57,7 +59,7 @@ export const DashboardSidebarItem = (props) => {
             <Typography
               color="textPrimary"
               sx={{
-                color: active ? 'primary' : 'text.primary',
+                color: active ? appSettings.get_navbar_color() : 'text.primary',
                 display: pinned ? 'flex' : 'none',
                 ml: 1.25
               }}
@@ -84,7 +86,7 @@ export const DashboardSidebarItem = (props) => {
                     component={RouterLink}
                     fullWidth
                     sx={{
-                      color: isActive ? 'primary' : 'text.secondary',
+                      color: isActive ? appSettings.get_navbar_color()  : 'text.secondary',
                       fontWeight: 400,
                       justifyContent: 'flex-start',
                       pl: 5,
@@ -120,7 +122,7 @@ export const DashboardSidebarItem = (props) => {
           px: 1.25,
           py: 1.25,
           '& .MuiButton-startIcon': {
-            color: active ? 'primary' : 'text.secondary',
+            color: active ? appSettings.get_navbar_color() : 'text.secondary',
             margin: 0
           },
           '& .MuiButton-endIcon': {
@@ -135,7 +137,7 @@ export const DashboardSidebarItem = (props) => {
         <Typography
           color="textPrimary"
           sx={{
-            color: active ? 'primary' : 'text.primary',
+            color: active ? appSettings.get_navbar_color()  : 'text.primary',
             display: pinned ? 'flex' : 'none',
             ml: 1.25
           }}

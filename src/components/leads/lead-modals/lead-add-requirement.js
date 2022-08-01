@@ -129,7 +129,7 @@ const LeadAddRequirement = (props) => {
 
                                     <Grid sx={{p: 1}} item xs={12}>
                                         <TextInput control={control} name="title"
-                                                   label="Requirement of the title"
+                                                   label="Title of the Requirement"
                                                    value={watch('title')}/>
                                     </Grid>
 

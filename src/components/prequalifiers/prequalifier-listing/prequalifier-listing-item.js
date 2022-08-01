@@ -11,7 +11,7 @@ const PrequalifierListingItem = (props) => {
                 <ListItemAvatar>
                     <Avatar sx={{ bgcolor: deepPurple[400], color: "#FFF" }} >{props.name.slice(0,1).toString().toUpperCase()}</Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={props.name}/>
+                <ListItemText primary={props.name} />
             </ListItemButton>
         </List>
     );

@@ -2,10 +2,15 @@ import {LeadTypes} from "../Endpoints/LeadTypes";
 import {Labels} from "../Endpoints/Labels";
 import {Stages} from "../Endpoints/Stages";
 import {Users} from "../Endpoints/Users";
+import {useAppSettings} from "../../hooks/use-app-settings";
+
 
 export const Lists = {
+
     leadTypes: () =>{
-        return  LeadTypes.index().then(response => { return response.data.data.data; })
+        return  Users.getLeadTypeOrganisations({organisations_id: localStorage.getItem('organization')}).then(response => {
+            console.log("leadTypes",response.data); return response.data.data;
+        })
     },
     labels: () => {
         return Labels.get().then(response => { return response.data.data.data; })
