@@ -1,6 +1,6 @@
 {
   "name": "Omnisellcrm",
-  "homepage": ".",
+  "homepage": "https://app.omnisellcrm.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
