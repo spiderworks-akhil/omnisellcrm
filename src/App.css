@@ -51,3 +51,39 @@
 .team-list .MuiListItem-root:nth-child(odd){
   border-right: 1px solid #f0f0f0;
 }
+
+
+
+
+
+@media only screen and (max-width: 1400px) {
+
+  .css-1kf1kfl-MuiGrid-root {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+
+
+@media only screen and (max-width: 991px) {
+
+  .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.css-1idn90j-MuiGrid-root {
+    width: 100% !important;
+  }
+
+  .css-1idn90j-MuiGrid-root svg {
+      transform: scale(.8);
+      margin-left: -60px;
+  }
+
+
+}
+
+
+@media only screen and (max-width: 767px) {
+
+  .css-b7uz5r-MuiPaper-root-MuiDialog-paper {
+    width: 80% !important;
+  }
+}

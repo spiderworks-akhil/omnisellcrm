@@ -103,20 +103,20 @@ const UserSettings = () => {
             <Grid item xs={12} sx={{mx:2}}>
                     <Grid container>
 
-                        <Grid item xs={6} >
+                        <Grid item lg={6} sm={6} xs={12} >
                             <Typography variant="h6" gutterBottom component="div">
                                 App Settings
                             </Typography>
                             <Divider />
 
                             <Grid container sx={{py:2}}>
-                                <Grid item xs={4} >
+                                <Grid item  lg={4} sm={6} xs={12} >
                                     <Typography variant="subtitle2" gutterBottom component="div"> Pick a nav bar color </Typography>
                                 </Grid>
-                                <Grid item xs={4} >
+                                <Grid item  lg={4} sm={6} xs={12} >
                                     <Grid item sx={{background:navbarColor, width:"50px", p:1}}></Grid>
                                 </Grid>
-                                <Grid item xs={4} >
+                                <Grid item  lg={4} sm={6} xs={12} >
                                     <Button onClick={handleColorPicker} sx={{display:'block'}} variant={"outlined"}>Pick color</Button>
                                 </Grid>
                             </Grid>
@@ -125,7 +125,7 @@ const UserSettings = () => {
                         </Grid>
 
 
-                        <Grid item xs={6} >
+                        <Grid item lg={6} sm={6} xs={12} >
                             <Typography variant="h6" gutterBottom component="div">
                                 You can connect your google account to access your calender
                             </Typography>

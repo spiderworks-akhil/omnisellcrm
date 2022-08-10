@@ -16,7 +16,7 @@ const MissedCallContent = (props) => {
         <div>
             <Grid container sx={{mt:2}}>
                 {tabs.map(obj => {
-                    return <Grid key={obj.value} item xs={3}  sx={{pl:2,pr:2,pb:2}}>
+                    return <Grid key={obj.value} item lg={3} sm={6} xs={12} sx={{pl:2,pr:2,pb:2}}>
                         <Typography variant={"subtitle1"}>{obj.label}</Typography>
                         <MissedCallLisiting key={refresh} onStatusChange={handleStatusChange}  type={obj.value} labelId={props.labelId}  />
                     </Grid>;
