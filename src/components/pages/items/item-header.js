@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, Grid, Typography} from "@mui/material";
-import LeadAddModal from "./lead-modals/lead-add-modal";
-import {Plus} from "../../icons/plus";
+// import LeadAddModal from "./lead-modals/lead-add-modal";
+import {Plus} from "../../../icons/plus";
 
-
-const LeadPageHeader = (props) => {
+const ItemHeader = (props) => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => { setOpen(true); };
     const handleClose = () => { setOpen(false);};
@@ -14,7 +13,7 @@ const LeadPageHeader = (props) => {
 
     return (
         <Grid sx={{mx:2,my:2}}>
-            <LeadAddModal isShow={open} onHandleClose={handleClose} onLeadUpdate={handleLeadUpdate} />
+            {/*<LeadAddModal isShow={open} onHandleClose={handleClose} onLeadUpdate={handleLeadUpdate} />*/}
             <Box>
                 <Box
                     sx={{
@@ -26,7 +25,7 @@ const LeadPageHeader = (props) => {
                         color="textPrimary"
                         variant="h4"
                     >
-                        Leads
+                        Products
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Button
@@ -44,4 +43,4 @@ const LeadPageHeader = (props) => {
     );
 };
 
-export default LeadPageHeader;
+export default ItemHeader;

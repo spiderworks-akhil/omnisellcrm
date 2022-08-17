@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, matchPath } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Box, Divider, Drawer, IconButton, List } from '@mui/material';
+import {Box, Divider, Drawer, IconButton, List, ListItemIcon} from '@mui/material';
 import { DashboardSidebarItem } from './dashboard-sidebar-item';
 import { Scrollbar } from './scrollbar';
 import { ChevronLeft as ChevronLeftIcon } from '../icons/chevron-left';
@@ -21,7 +21,7 @@ import {
   Filter,
   Filter1Outlined,
   Filter3Rounded, ListAltOutlined,
-  SearchOff, Settings,
+  SearchOff, Settings, Subject,
   ViewListOutlined,
   YoutubeSearchedForOutlined
 } from "@mui/icons-material";
@@ -71,6 +71,11 @@ const items = [
     icon: CallEndOutlined,
     title: 'Follow up',
     href: '/dashboard/follow-up',
+  },
+  {
+    icon: Subject,
+    title: 'Products',
+    href: '/dashboard/products',
   },
   {
     icon: Settings,

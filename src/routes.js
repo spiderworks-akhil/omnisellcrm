@@ -23,6 +23,7 @@ import FollowUpIndex from "./components/pages/follow-up/follow-up-index";
 import DemoIndex from "./components/pages/demo/demo-index";
 import LeadDetailIndex from "./components/pages/lead/lead-detail-index";
 import MissedCallIndex from "./components/pages/missed-calls/missed-call-index";
+import ItemIndex from "./components/pages/items/item-index";
 
 const Loadable = (Component) => (props) => (
   <Suspense fallback={<LoadingScreen />}>
@@ -81,12 +82,7 @@ const routes = [
             },
             {
                 path: 'products',
-                children: [
-                    {
-                        path: '',
-                        element: <Products />
-                    },
-                ]
+                element: <ItemIndex />,
             },
             {
                 path: 'leads',
