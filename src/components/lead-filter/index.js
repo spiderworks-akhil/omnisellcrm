@@ -133,17 +133,17 @@ const LeadFilterIndex = () => {
             <Grid container>
                 <Grid item xs={12} sx={{borderBottom: '1px solid #fafafa', mb:2}}>
                     <Grid container>
-                        <Grid item xs={8}>
+                        <Grid item lg={8} sm={6} xs={12}>
                             <PageHeader />
                         </Grid>
-                        <Grid item xs={4}  sx={{pl:2,pr:2,my:2}}>
+                        <Grid item lg={4} sm={6} xs={12}  sx={{pl:2,pr:2,my:2}}>
                             <DateRangeInput onDateChange={handleDateChange} date={dateRange}/>
                         </Grid>
                     </Grid>
                 </Grid>
 
 
-                <Grid item xs={2}  sx={{pl:2,pr:2,pb:2}}>
+                <Grid item lg={2} sm={6} xs={12}  sx={{pl:2,pr:2,pb:2}}>
 
 
                     <FormLabel component="legend">Labels</FormLabel>
@@ -216,10 +216,10 @@ const LeadFilterIndex = () => {
                     <Button sx={{mt:2}} variant="outlined" onClick={handleClearFilter}>Clear filter</Button>
 
                 </Grid>
-                <Grid item xs={3} sx={{pr:2,pb:2}}>
+                <Grid item lg={3} sm={6} xs={12} sx={{pr:2,pb:2}}>
                     <FilteredLeadListing onLeadChange={handleLeadChange} dataToSubmit={dataToSubmit} key={refresh}/>
                 </Grid>
-                <Grid item xs={7} sx={{pr:2,pb:2}}>
+                <Grid item lg={7} sm={12} xs={12} sx={{pr:2,pb:2}}>
                     <LeadDetail leadId={selectedLeadId}/>
                 </Grid>
             </Grid>

@@ -18,10 +18,10 @@ const LeadIndex = () => {
                 <Grid item xs={12}>
                     <LeadPageHeader onLeadCreate={handleNewLead} />
                 </Grid>
-                <Grid item xs={3}  sx={{pl:2,pr:2,pb:2}}>
+                <Grid item lg={3} sm={6} xs={12}  sx={{pl:2,pr:2,pb:2}}>
                     <LeadListing onLeadChange={handleLeadChange} activeLeadId={activeLeadId}/>
                 </Grid>
-                <Grid item xs={9} sx={{pr:2,pb:2}}>
+                <Grid item lg={9} sm={6} xs={12} sx={{pr:2,pb:2}}>
                     <LeadDetail leadId={selectedLeadId}/>
                 </Grid>
             </Grid>

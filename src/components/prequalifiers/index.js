@@ -26,10 +26,10 @@ const PreQualifierIndex = () => {
                     <PageHeader />
                 </Grid>
 
-                <Grid item xs={3}  sx={{pl:2,pr:2,pb:2}}>
+                <Grid item lg={3} sm={6} xs={12}  sx={{pl:2,pr:2,pb:2}}>
                     <PrequalifierListing key={refresh} onPreQualifierIdChange={handlePreQualifierIdChange} />
                 </Grid>
-                <Grid item xs={9} sx={{pr:2,pb:2}}>
+                <Grid item lg={9} sm={6} xs={12} sx={{pr:2,pb:2}}>
                     <PrequalifierDetails onDelete={handleReject}  id={selectedPreQualifierId} />
                 </Grid>
             </Grid>
