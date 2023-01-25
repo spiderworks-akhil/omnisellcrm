@@ -85,6 +85,7 @@ const PrequalifierDetails = (props) => {
             })
         }
     }
+
     const handleAccept = () => {
         PreQualifiers.accept({lead_id: props.id}).then(response => {
             if(response.data.status !== "error"){

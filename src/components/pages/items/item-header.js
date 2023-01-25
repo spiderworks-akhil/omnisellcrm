@@ -1,19 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, Grid, Typography} from "@mui/material";
-// import LeadAddModal from "./lead-modals/lead-add-modal";
 import {Plus} from "../../../icons/plus";
+import ItemCreate from "./item-create";
 
 const ItemHeader = (props) => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => { setOpen(true); };
-    const handleClose = () => { setOpen(false);};
+    const handleClose = () => { setOpen(false); props.onClose() };
 
-    const handleLeadUpdate = (leadId) => { props.onLeadCreate(leadId); };
+    const handleUpdate = (id) => { props.onUpdate(id) };
+
+    useEffect(() => {
+        if(props.toEdit){
+            setOpen(true);
+        }
+    },[open, props.toEdit])
 
 
     return (
         <Grid sx={{mx:2,my:2}}>
-            {/*<LeadAddModal isShow={open} onHandleClose={handleClose} onLeadUpdate={handleLeadUpdate} />*/}
+            <ItemCreate isShow={open} toEdit={props.toEdit} onHandleClose={handleClose} onUpdate={handleUpdate} />
             <Box>
                 <Box
                     sx={{

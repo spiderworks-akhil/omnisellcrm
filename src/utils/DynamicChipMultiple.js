@@ -9,10 +9,11 @@ const DynamicChip = (props) => {
         props.onChipCLick(props.id)
     }
     useEffect(()=>{
+
     },[props.active])
 
     return <Chip onClick={handleClick} clickable={true} label={props.name} sx={{m:0.3, background:props.background, color: props.color,}}
-                 icon={props.active.includes(props.id)? <CheckIcon style={{ color: props.color }} /> : null}
+                 icon={props.active?.includes(props.id)? <CheckIcon style={{ color: props.color }} /> : null}
     />
 };
 

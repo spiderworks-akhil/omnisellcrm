@@ -19,7 +19,9 @@ import LeadAddEditDemo from "./lead-details/lead-demo/add-edit-demo";
 import {LeadDemo} from "./lead-details/lead-demo";
 import LeadAddEditNote from "./lead-details/lead-notes/add-edit-note";
 import {LeadNote} from "./lead-details/lead-note";
-
+import {WorkOutlined} from "@mui/icons-material";
+import LeadAddEditWorkorder from "./lead-details/lead-workorder/add-edit-workorder";
+import AddEditPaymentProfile from "./lead-details/lead-payment-profiles/add-edit-payment-profile";
 
 const Loadable = (Component) => (props) => (
     <Suspense fallback={<LoadingScreen />}>
@@ -33,6 +35,10 @@ const LeadActivity = Loadable(lazy(() => import('./lead-details/lead-activity').
 const LeadCalls = Loadable(lazy(() => import('./lead-details/lead-calls').then((module) => ({ default: module.LeadCalls }))));
 const LeadMeeting = Loadable(lazy(() => import('./lead-details/lead-meeting').then((module) => ({ default: module.LeadMeeting }))));
 const LeadPayments = Loadable(lazy(() => import('./lead-details/lead-payments').then((module) => ({ default: module.LeadPayments }))));
+const LeadPaymentProfiles = Loadable(lazy(() => import('./lead-details/lead-payment-profiles').then((module) => ({ default: module.LeadPaymentProfiles }))));
+
+const LeadInvoices = Loadable(lazy(() => import('./lead-details/lead-invoices').then((module) => ({ default: module.LeadInvoices }))));
+
 const LeadQuotation = Loadable(lazy(() => import('./lead-details/lead-quotation').then((module) => ({ default: module.LeadQuotation }))));
 const LeadRequirement = Loadable(lazy(() => import('./lead-details/lead-requirement').then((module) => ({ default: module.LeadRequirement }))));
 
@@ -53,11 +59,25 @@ const LeadDetail = (props) => {
         const handleCallClose = () => { setOpenCallModal(false);setRefresh(Math.random)};
     //ends
 
+    //edit modal popup control
+    const [openPaymentProfileModal, setOpenPaymentProfileModal] = useState(false);
+    const handlePaymentProfileClickOpen = () => { setRefresh(Math.random); setOpenPaymentProfileModal(false);setOpenPaymentProfileModal(true); };
+    const handlePaymentProfileClose = () => { setOpenPaymentProfileModal(false);setRefresh(Math.random)};
+    //ends
+
+
+
 
     //edit modal popup control
     const [openDemoModal, setOpenDemoModal] = useState(false);
     const handleDemoClickOpen = () => { setRefresh(Math.random); setDemoId(false);setOpenDemoModal(true); };
     const handleDemoClose = () => { setOpenDemoModal(false);setRefresh(Math.random)};
+    //ends
+
+    //edit modal popup control
+    const [openWorkOrderModal, setOpenWorkOrderModal] = useState(false);
+    const handleWorkOrderClickOpen = () => { setRefresh(Math.random); setWorkOrderId(false);setOpenWorkOrderModal(true); };
+    const handleWorkOrderClose = () => { setOpenWorkOrderModal(false);setRefresh(Math.random)};
     //ends
 
     //edit modal popup control
@@ -87,12 +107,21 @@ const LeadDetail = (props) => {
     const [callId, setCallID] = useState(false);
     const [demoId, setDemoId] = useState(false);
     const [noteId, setNoteId] = useState(false);
+    const [workOrderId, setWorkOrderId] = useState(false);
     const [requirementId, setRequirementId] = useState(false);
+    const [paymentProfileID, setPaymentProfileID] = useState(false);
 
     const handleCallEdit = (callId_) => {
         setCallID(callId_);
         setOpenCallModal(true);
     }
+
+    const handlePaymentProfileEdit = (_paymentProfileID) => {
+        setPaymentProfileID(_paymentProfileID);
+        setOpenPaymentProfileModal(true);
+    }
+
+
     const handleRequirementEdit = (requirementId_) => {
         setRefresh(Math.random)
         setRequirementId(requirementId_);
@@ -149,8 +178,16 @@ const LeadDetail = (props) => {
             label: 'Requirement'
         },
         {
+            component: <LeadPaymentProfiles  leadId={leadId} onEdit={handlePaymentProfileEdit}/>,
+            label: 'Payment Profiles'
+        },
+        {
             component: <LeadWorkorder  leadId={leadId} />,
             label: 'Work order'
+        },
+        {
+            component: <LeadInvoices  leadId={leadId} />,
+            label: 'Invoice'
         },
         {
             component: <LeadMeeting  leadId={leadId} />,
@@ -160,10 +197,6 @@ const LeadDetail = (props) => {
             component: <LeadQuotation  leadId={leadId} />,
             label: 'Quotation'
         },
-        {
-            component: <LeadPayments  leadId={leadId} />,
-            label: 'Payments'
-        }
     ];
 
     const [activeTab, setActiveTab] = useState(0);
@@ -182,6 +215,8 @@ const LeadDetail = (props) => {
     const requirementUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Requirement'))) }
     const AddToUserUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Overview'))) }
     const TeamMemberUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Team'))) }
+    const workOrderUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Work order'))) }
+    const paymentProfileUpdateHandler = () => {   setActiveTab(0); setActiveTab(parseInt(getTabIdByLabel('Payment Profiles'))) }
 
     useEffect(()=>{
         setLeadId(props.leadId);
@@ -190,6 +225,24 @@ const LeadDetail = (props) => {
     return (
         <>{parseInt(leadId) > 0 ?
                 <Card variant="outlined">
+
+                    <AddEditPaymentProfile
+                        key={refresh*8}
+                        editId={paymentProfileID}
+                        isShow={openPaymentProfileModal}
+                        onUpdate={paymentProfileUpdateHandler}
+                        onHandleClose={handlePaymentProfileClose}
+                        leadId={props.leadId}/>
+
+                    <LeadAddEditWorkorder
+                        key={refresh*7}
+                        editId={workOrderId}
+                        isShow={openWorkOrderModal}
+                        onUpdate={workOrderUpdateHandler}
+                        onHandleClose={handleWorkOrderClose}
+                        leadId={props.leadId}/>
+
+
                     <LeadAddCall key={refresh} callId={callId} isShow={openCallModal} onCallUpdate={callUpdateHandler} onHandleClose={handleCallClose} leadId={props.leadId}/>
                     <LeadAddEditDemo
                         key={refresh*5}
@@ -222,6 +275,8 @@ const LeadDetail = (props) => {
                         onTeamUpdate={TeamMemberUpdateHandler}
                         leadId={props.leadId}/>
 
+
+
                     <Box sx={{ borderBottom: 1, borderColor: 'divider',px:2 }} >
                         <Tabs value={activeTab} onChange={handleChange} aria-label="basic tabs example" >
                             {tabs.map((obj,index)=>{
@@ -239,6 +294,10 @@ const LeadDetail = (props) => {
                             <Button onClick={handleAddToUserClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Assign to a User</Button>
                             <Button onClick={handleAddTeamMemberClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Add team member</Button>
                             <Button size="small" sx={{mr:1}} variant="outlined" startIcon={<CalendarMonthTwoToneIcon />}>Create a Meeting</Button>
+                            <Button  onClick={handleWorkOrderClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<WorkOutlined />}>Create a Work Order</Button>
+                            <Button onClick={handlePaymentProfileClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<User />}>
+                                Add a payment profile
+                            </Button>
                         </Grid>
                     </Card>
 

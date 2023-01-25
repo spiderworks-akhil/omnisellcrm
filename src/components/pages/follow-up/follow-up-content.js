@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FollowUp} from "../../../api/Endpoints/FollowUp";
 import {Grid} from "@mui/material";
-import LeadListing from "../../closed-leads/lead-listing";
 import LeadDetail from "../../leads/lead-details";
 import FollowUpListing from "./follow-up-listing";
 

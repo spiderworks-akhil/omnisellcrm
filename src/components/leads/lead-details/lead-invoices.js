@@ -4,9 +4,8 @@ import NoDataAvailableYet from "../../../utils/NoDataAvailableYet";
 import {Leads} from "../../../api/Endpoints/Leads";
 import SingleRequirement from "./lead-requirement/single-requirement";
 import {WorkOrder} from "../../../api/Endpoints/WorkOrder";
-import SingleWorkorder from "./lead-workorder/single-workorder";
 
-export const LeadWorkorder = (props) => {
+export const LeadInvoices = (props) => {
 
     const [itemList , setItemList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -38,8 +37,10 @@ export const LeadWorkorder = (props) => {
                     {typeof itemList.data === "object"?
                         <>{itemList.data.length > 0 ?
                             <>{itemList.data.map((obj,index) => {
-                                return <SingleWorkorder onEdit={handleEdit} onDelete={handleDelete} key={index}
-                                                         data={obj}
+                                return <SingleRequirement onEdit={handleEdit} onDelete={handleDelete} key={index}
+                                                          id={obj.id} time={obj.created_at}
+                                                          title={obj.title} description={obj.description} status={obj.status} priority={obj.priority}
+                                                          user={obj.created_user?.name}
                                 />
                             })}
                                 <Grid sx={{px:2,py:2}}> <Pagination onChange={handlePageChange} count={itemList.last_page}  shape="rounded" siblingCount={0}  /> </Grid>
