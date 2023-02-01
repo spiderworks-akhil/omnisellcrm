@@ -10,6 +10,7 @@ import RequirementToWorkorderModal from "../lead-workorder/requirement-to-workor
 import LeadAddRequirement from "../../lead-modals/lead-add-requirement";
 import {Demo} from "../../../../api/Endpoints/Demo";
 import {FollowUp} from "../../../../api/Endpoints/FollowUp";
+import {Alert} from "@mui/lab";
 
 const SingleDemo = (props) => {
     const [open, setOpen] = useState(false);
@@ -74,6 +75,7 @@ const SingleDemo = (props) => {
                             color="textSecondary"
                             variant="body2"
                         >
+                            {props.dataSet.close === 1 && <Alert severity="info">This follow up is closed</Alert>}
 
                             <Typography
                                 color="textPrimary"
@@ -92,6 +94,12 @@ const SingleDemo = (props) => {
                             >
                                 {props.dataSet.title} <br/>
                                 Assigned to : {props.dataSet?.assigned_to?.name? props.dataSet?.assigned_to?.name : <Button onClick={handleEditShow}>assign to a user</Button>}
+
+                                <br/>
+                                {props.dataSet?.follow_up_status && "Status : "+props.dataSet?.follow_up_status} <br/>
+                                {props.dataSet?.remarks && "Remarks : "+props.dataSet?.remarks}
+                                <br/>
+                                {/*<Button variant={"outlined"}>Reschedule</Button>*/}
                             </Card>
 
                         </Typography>

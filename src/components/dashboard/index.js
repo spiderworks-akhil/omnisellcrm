@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Grid} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import PageHeader from "./page-header";
 import {SummaryItem} from "../reports/summary-item";
 import {Check} from "../../icons/check";
@@ -8,6 +8,7 @@ import {Statitics} from "../../api/Endpoints/Statitics";
 import StageChart from "./StageChart";
 import {Users} from "../../api/Endpoints/Users";
 import UserActivities from "./UserActivities";
+import UserFollowUps from "./UserFollowUps";
 
 const DashboardIndex = () => {
 
@@ -99,18 +100,27 @@ const DashboardIndex = () => {
 
 
 
+                {/*<Grid*/}
+                {/*    item*/}
+                {/*    md={6}*/}
+                {/*    xs={12}*/}
+                {/*    sx={{px:2}}*/}
+                {/*>*/}
+                {/*    {*/}
+                {/*        statitics?.stages?.map((obj, index) => {*/}
+                {/*            return <StageChart data={obj} />;*/}
+                {/*        })*/}
+                {/*    }*/}
+
+                {/*</Grid>*/}
+
                 <Grid
                     item
                     md={6}
                     xs={12}
                     sx={{px:2}}
                 >
-                    {
-                        statitics?.stages?.map((obj, index) => {
-                            return <StageChart data={obj} />;
-                        })
-                    }
-
+                    <UserFollowUps />
                 </Grid>
 
                 <Grid

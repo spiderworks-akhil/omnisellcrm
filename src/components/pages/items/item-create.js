@@ -25,7 +25,7 @@ const ItemCreate = (props) => {
     const [loading, setLoading] = useState({status:true, progress:0});
     const [open, setOpen] = useState(false);
     const handleClose = () => { props.onHandleClose(false); };
-    const appSettings = useAppSettings();
+
     const [isEdit, setIsEdit] = useState(false);
 
 
@@ -128,7 +128,7 @@ const ItemCreate = (props) => {
 
     useEffect(()=> {
         reset_form();
-        props.toEdit && fetchDetails();
+        Number(props.toEdit) ? fetchDetails():  setLoading({status:false, progress:100});
         props.isShow? setOpen(true) : setOpen(false);
     },[props.isShow,props.toEdit])
 

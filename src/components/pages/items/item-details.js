@@ -171,7 +171,7 @@ const ItemDetails = (props) => {
 
                     </Grid>
                         :
-                        <Alert severity="error">404 | Failed to fetch data from server</Alert>
+                        <Alert severity="warning">No product selected</Alert>
                     }
                 </>
             }

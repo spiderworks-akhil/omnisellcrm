@@ -9,4 +9,5 @@ export const FollowUp = {
     remove: (data) => get('follow-up/delete', {params : data}),
     types: (data) => get('follow-up/get-types'),
     subTypes: (data) => get('follow-up/get-sub-types'),
+    reschedule : (data) => get('follow-up/reschedule', {params : data}),
 }

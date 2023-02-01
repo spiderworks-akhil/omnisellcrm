@@ -5,7 +5,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, Grid, MenuItem, Select,
-    Slide, Typography
+    Slide, TextField, Typography
 } from "@mui/material";
 import {Scrollbar} from "../../scrollbar";
 import TextInput from "../../Form/TextInput";
@@ -30,6 +30,7 @@ import {SourceType} from "../../../api/Endpoints/SourceType";
 import SelectInput from "../../Form/SelectInput";
 import SelectInputWithSearch from "../../Form/SelectInputWithSearch";
 import AddReferral from "../components/add-referral";
+import {DateTimePicker} from "@mui/x-date-pickers";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -68,7 +69,7 @@ const LeadAddModal = (props) => {
     const scheme = yup.object().shape({
         name: yup.string().required(),
         company_name: yup.string().required(),
-        follow_up_date: yup.date(),
+        // follow_up_date: yup.string(),
         phone_number: yup.string().ensure().when("email",{
             is: "",
             then:  yup.string().required("Phone number is required when email is not present.")
@@ -197,6 +198,11 @@ const LeadAddModal = (props) => {
         fetchReferral();
     }
 
+    const handleFollowUpChange = (value) => {
+        setValue('follow_up_date',value)
+        console.log(watch('follow_up_date'))
+    }
+
 
 
     useEffect(()=> {
@@ -207,7 +213,7 @@ const LeadAddModal = (props) => {
         Lists.leadTypes().then(response => {
             setAvilableLeadTypes(response)
         });
-        setValue('follow_up_date',format(new Date(),"yyyy-MM-dd"))
+        setValue('follow_up_date',null)
     },[props.isShow])
 
     return (
@@ -262,9 +268,15 @@ const LeadAddModal = (props) => {
                                     <TextInput control={control} name="name" label="Name of the contact person" value={watch('name')}  />
                                 </Grid>
                                 <Grid sx={{p:1}} item xs={6}>
-                                    <DateInput control={control} name="follow_up_date" label="Follow up date"
+                                    {/*<DateInput control={control} name="follow_up_date" label="Follow up date"*/}
 
-                                               value={watch('follow_up_date')}  />
+                                    {/*           value={watch('follow_up_date')}  />*/}
+                                    <DateTimePicker
+                                        label="Follow up date"
+                                        value={watch('follow_up_date')}
+                                        onChange={handleFollowUpChange}
+                                        renderInput={(params) => <TextField {...params} variant={"standard"}/>}
+                                    />
                                 </Grid>
                                 <Grid sx={{p:1}} item xs={6}>
                                     <TextInput control={control} name="company_name" label="Organization name" value={watch('company_name')}  />

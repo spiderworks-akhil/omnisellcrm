@@ -2,7 +2,7 @@ import React from 'react';
 import {TextField} from "@mui/material";
 import {Controller} from "react-hook-form";
 import {alpha} from "@mui/material/styles";
-import {DateTimePicker} from "@mui/lab";
+import {DateTimePicker} from "@mui/x-date-pickers";
 import {IcecreamOutlined} from "@mui/icons-material";
 
 const DateTime = (props) => {
