@@ -97,6 +97,10 @@ const SingleFollowUp = (props) => {
 
     }
 
+    const handleOpenLeadCLick = () => {
+        props.onLeadId(props.dataSet.leads_id);
+    }
+
     const handleDeleteConfirmation = (confirmed) => {
         if(confirmed){
             FollowUp.remove({id: props.dataSet.id}).then(response => {
@@ -261,6 +265,15 @@ const SingleFollowUp = (props) => {
                         >
 
                             <Box sx={{flexGrow: 1}}/>
+
+                            <Button
+                                color="success"
+                                size="small"
+                                variant="text"
+                                onClick={handleOpenLeadCLick}
+                            >
+                                Open lead
+                            </Button>
 
                             <Button
                                 color="error"

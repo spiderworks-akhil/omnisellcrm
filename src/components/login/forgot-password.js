@@ -67,6 +67,11 @@ const ForgotPassword = () => {
             if(response.data.status === "success"){
                 setSendOtpButtonStatus({...sendOtpButtonStatus, loading : false});
                 setShowFiledAfterOTP(true);
+            }else{
+                toast.error("Invalid email address, Please contact at akhil@spiderworks.in to register your email address", {
+                    duration: 10000,
+                    position: 'top-center'})
+                setSendOtpButtonStatus({...sendOtpButtonStatus, loading : false});
             }
         })
     }
@@ -174,11 +179,11 @@ const ForgotPassword = () => {
                                                                        value={watch('otp')}/>
                                                         </Grid>
                                                         <Grid item xs={12}>
-                                                            <TextInput control={control} name="password"
+                                                            <TextInput control={control} type={"text"} name="password"
                                                                        label="New password" value={watch('password')}/>
                                                         </Grid>
                                                         <Grid item xs={12}>
-                                                            <TextInput control={control} name="confirm_password"
+                                                            <TextInput control={control}  type={"text"} name="confirm_password"
                                                                        label="Confirm password" value={watch('confirm_password')}/>
                                                             <LoadingButton sx={{mt: 1}} fullWidth color="primary"
                                                                            loading={changePasswordButtonStatus.loading}

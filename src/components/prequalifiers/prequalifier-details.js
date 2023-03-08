@@ -138,9 +138,25 @@ const PrequalifierDetails = (props) => {
                                     <IconButton color="inherit">
                                         {leadData.name}
                                     </IconButton>
+
+                                    <Button onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ml: 5,position: "absolute",right: "24px"}}><Delete />Delete</Button>
+                                    <Button onClick={handleAccept} variant={"outlined"} size={"small"} color={"success"} sx={{ml: 5,position: "absolute",right: "120px"}}><Check /> Convert to Lead</Button>
+
                                 </Box>
                                 <Grid container>
                                     <Grid item xs={12}>
+                                        {/*<ActionList>*/}
+                                        {/*    <ActionListItem*/}
+                                        {/*        onClick={confirmAction}*/}
+                                        {/*        icon={Delete}*/}
+                                        {/*        label="Delete"*/}
+                                        {/*    />*/}
+                                        {/*    <ActionListItem*/}
+                                        {/*        onClick={handleAccept}*/}
+                                        {/*        icon={Check}*/}
+                                        {/*        label="Convert to Lead"*/}
+                                        {/*    />*/}
+                                        {/*</ActionList>*/}
                                         <PropertyList>
                                             <PropertyListItem
                                                 divider
@@ -189,18 +205,7 @@ const PrequalifierDetails = (props) => {
 
                                 <Divider />
 
-                                <ActionList>
-                                    <ActionListItem
-                                        onClick={confirmAction}
-                                        icon={Delete}
-                                        label="Trash this data"
-                                    />
-                                    <ActionListItem
-                                        onClick={handleAccept}
-                                        icon={Check}
-                                        label="Convert this data into a lead"
-                                    />
-                                </ActionList>
+
                             </Card>
                         </Grid>
                         <Grid item xs={3}>
