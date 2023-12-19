@@ -10,7 +10,7 @@ export const PropertyListItem = (props) => {
       disableGutters
       sx={{
         px: 3,
-        py: 1.5
+        py: 1.5,
       }}
       {...other}
     >
@@ -37,7 +37,7 @@ export const PropertyListItem = (props) => {
                 color="textSecondary"
                 variant="body2"
               >
-                {value? value : "-"}
+                {value ? value : "-"}
               </Typography>
             )}
           </Box>

@@ -177,18 +177,18 @@ const LeadDetail = (props) => {
             component: <LeadRequirement leadId={leadId} onRequirementEdit={handleRequirementEdit} />,
             label: 'Requirement'
         },
-        {
-            component: <LeadPaymentProfiles  leadId={leadId} onEdit={handlePaymentProfileEdit}/>,
-            label: 'Payment Profiles'
-        },
-        {
-            component: <LeadWorkorder  leadId={leadId} />,
-            label: 'Work order'
-        },
-        {
-            component: <LeadInvoices  leadId={leadId} />,
-            label: 'Invoice'
-        },
+        // {
+        //     component: <LeadPaymentProfiles  leadId={leadId} onEdit={handlePaymentProfileEdit}/>,
+        //     label: 'Payment Profiles'
+        // },
+        // {
+        //     component: <LeadWorkorder  leadId={leadId} />,
+        //     label: 'Work order'
+        // },
+        // {
+        //     component: <LeadInvoices  leadId={leadId} />,
+        //     label: 'Invoice'
+        // },
         {
             component: <LeadMeeting  leadId={leadId} />,
             label: 'Meeting'
@@ -294,10 +294,10 @@ const LeadDetail = (props) => {
                             <Button onClick={handleAddToUserClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Assign to a User</Button>
                             <Button onClick={handleAddTeamMemberClickOpen} size="small" sx={{mr:1}} variant="outlined" startIcon={<User />}>Add team member</Button>
                             <Button size="small" sx={{mr:1}} variant="outlined" startIcon={<CalendarMonthTwoToneIcon />}>Create a Meeting</Button>
-                            <Button  onClick={handleWorkOrderClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<WorkOutlined />}>Create a Work Order</Button>
+                            {/* <Button  onClick={handleWorkOrderClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<WorkOutlined />}>Create a Work Order</Button>
                             <Button onClick={handlePaymentProfileClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<User />}>
                                 Add a payment profile
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </Card>
 

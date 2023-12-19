@@ -40,7 +40,7 @@ const PrequalifierListing = (props) => {
 
             {typeof preQualifiersList.data === "object"?
                 preQualifiersList.data.map((obj,index)=> {
-                    return  <PrequalifierListingItem active={selectedPreQualifierId} onLeadChange={handleLeadClick} name={obj.name} id={obj.id} key={index} />;
+                    return  <PrequalifierListingItem active={selectedPreQualifierId} onLeadChange={handleLeadClick} data={obj} name={obj.name} id={obj.id} key={index} />;
                 })
                 :
                 <Skeleton animation="wave"  height={400}/>
