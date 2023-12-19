@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NoDataAvailableYet from "../../utils/NoDataAvailableYet";
-import { Avatar, Box, Button, Card, CardHeader, Divider, Grid, IconButton, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardHeader, Divider, Grid, IconButton, MenuItem, Modal, Skeleton, Typography } from "@mui/material";
 import { PreQualifiers } from "../../api/Endpoints/PreQualifiers";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import { PropertyList } from "../property-list";
@@ -9,13 +9,36 @@ import { ActionList } from "../action-list";
 import { ActionListItem } from "../action-list-item";
 import { Eye as EyeIcon } from "../../icons/eye";
 import toast, { CheckmarkIcon } from "react-hot-toast";
-import { Delete, NetworkCheck } from "@mui/icons-material";
+import { Delete, NetworkCheck, PublishedWithChanges } from "@mui/icons-material";
 import { Check } from "../../icons/check";
 import ConfirmAlert from "../../utils/ConfirmAlert";
 import { Leads } from "../../api/Endpoints/Leads";
 import { format, parseISO } from "date-fns";
+import axios from 'axios';
+import { useAppSettings } from '../../hooks/use-app-settings';
+import { useForm } from 'react-hook-form';
+import { Lists } from '../../api/Lists/Lists';
+import SelectInputWithSearch from '../Form/SelectInputWithSearch';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+};
+
+
+
 
 const PrequalifierDetails = (props) => {
+
+    const { register, handleSubmit, watch, formState: { errors }, control, setValue, reset } = useForm();
+
 
     let showFields = [
         { key: "title", label: "Title" },
@@ -50,6 +73,14 @@ const PrequalifierDetails = (props) => {
     const handleShow = () => { setOpen(true) }
     const handleClose = () => { setOpen(false) }
     const [isDeleted, setIsDeleted] = useState(false)
+    const [avilableLeadTypes, setAvilableLeadTypes] = useState([]);
+    const appSettings = useAppSettings();
+    const [leadType, setLeadType] = useState(appSettings.get_lead_type());
+
+    const [changeLeedModal, setChangeLeedModal] = React.useState(false);
+    const handleOpenchangeLeedModal = () => setChangeLeedModal(true);
+    const handleClosechangeLeedModal = () => setChangeLeedModal(false);
+
 
     const fetchPrequalifierDetails = async () => {
         setIsLoading(true);
@@ -61,18 +92,20 @@ const PrequalifierDetails = (props) => {
 
     useEffect(() => {
         setState(true); setIsDeleted(false);
-        if (props.id !== null) { fetchPrequalifierDetails(); }
+        // beforeRefresh()
+        if (props.id !== null) {
+            fetchPrequalifierDetails();
+            getLeads()
+            setValue('lead_type', leadType)
+        }
         console.log("Created")
         return () => {
             setState(false);
         };
     }, [props.id])
 
-    const beforeRefresh = () => {
-        console.log('before refresh');
-    }
 
-    window.addEventListener('beforeunload', beforeRefresh);
+
 
     const confirmAction = () => {
         // setOpen(true)
@@ -80,7 +113,8 @@ const PrequalifierDetails = (props) => {
         PreQualifiers.reject({ lead_id: props.id }).then(response => {
             if (response.data.status !== "error") {
                 toast.success(response.data.message)
-                setIsDeleted(true);
+                fetchPrequalifierDetails()
+                // setIsDeleted(true);
                 props.onDelete()
             } else {
                 toast.error(response.data.message)
@@ -112,6 +146,13 @@ const PrequalifierDetails = (props) => {
                 toast.error(response.data.message)
             }
         })
+    }
+
+    const getLeads = () => {
+        Lists.leadTypes().then(response => {
+            // console.log(response);
+            setAvilableLeadTypes(response)
+        });
     }
 
     // console.log(leadData);
@@ -161,6 +202,8 @@ const PrequalifierDetails = (props) => {
                                         </Typography>
 
                                     </IconButton>
+
+                                    <Button onClick={handleOpenchangeLeedModal} variant={"outlined"} size={"small"} color={"success"} sx={{ ml: 5, position: "absolute", right: "275px" }}><PublishedWithChanges /> Change Lead Type</Button>
 
                                     {leadData?.status == 'Open' ?
                                         <Button onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px" }}><Delete />Delete</Button>
@@ -241,6 +284,41 @@ const PrequalifierDetails = (props) => {
                         </Grid>
                     </>
                 }
+
+                <div>
+                    <Modal
+                        open={changeLeedModal}
+                        onClose={handleClosechangeLeedModal}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Change Leed Type
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                <SelectInputWithSearch ismultiple={"false"} control={control} name={'lead_type'}
+                                    defaultValue={watch('lead_type')}>
+                                    {
+                                        avilableLeadTypes.map(obj => {
+                                            return <MenuItem value={obj.id}>{obj.name}</MenuItem>
+                                        })
+                                    }
+                                </SelectInputWithSearch>
+                            </Typography>
+
+                            <Grid mt={2} display={'flex'} justifyContent={'space-between'}>
+                                <Button onClick={handleClosechangeLeedModal}>
+                                    Cancel
+                                </Button>
+                                <Button>
+                                    Confirm
+                                </Button>
+
+                            </Grid>
+                        </Box>
+                    </Modal>
+                </div>
             </div>
         );
     }

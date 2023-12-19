@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Grid, TextField} from "@mui/material";
 import PageHeader from "./page-header";
 import LeadListing from "../leads/lead-listing";
@@ -7,11 +7,15 @@ import PrequalifierListing from "./prequalifier-listing";
 import PrequalifierDetails from "./prequalifier-details";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {DateTimePicker} from "@mui/x-date-pickers";
+import { PreQualifiers } from '../../api/Endpoints/PreQualifiers';
+import { useAppSettings } from '../../hooks/use-app-settings';
 
 const PreQualifierIndex = () => {
 
     const [selectedPreQualifierId, setSelectedPreQualifierId] = useState(null);
     const [refresh, setRefresh] = useState(1);
+    const appSettings = useAppSettings();
+    const [leadType, setLeadType] = useState(appSettings.get_lead_type());
 
     const handlePreQualifierIdChange = (id) => {
         setSelectedPreQualifierId(id)
@@ -20,6 +24,25 @@ const PreQualifierIndex = () => {
     const handleReject = () => {
         setRefresh(Math.random);
     }
+
+    const beforeRefresh = async () => {
+        
+        console.log('before refresh');
+        try {
+            if(leadType){
+                let deleteApi=await PreQualifiers.delete({ lead_type_id: leadType }) 
+                console.log(deleteApi);
+                console.log('finish');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        // PreQualifiers.delete({ lead_type_id: props.id })
+    }
+
+    useEffect(() => {
+        beforeRefresh()
+    }, [])
 
     return (
         <Card>
