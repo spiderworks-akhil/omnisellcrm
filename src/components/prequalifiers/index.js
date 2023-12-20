@@ -16,6 +16,7 @@ const PreQualifierIndex = () => {
     const [refresh, setRefresh] = useState(1);
     const appSettings = useAppSettings();
     const [leadType, setLeadType] = useState(appSettings.get_lead_type());
+    const [noLoadRefresh, setnoLoadRefresh] = useState(1)
 
     const handlePreQualifierIdChange = (id) => {
         setSelectedPreQualifierId(id)
@@ -23,6 +24,10 @@ const PreQualifierIndex = () => {
 
     const handleReject = () => {
         setRefresh(Math.random);
+    }
+
+    const handleNoLoadReject = () => {
+        setnoLoadRefresh(Math.random);
     }
 
     const beforeRefresh = async () => {
@@ -63,10 +68,10 @@ const PreQualifierIndex = () => {
                         renderInput={(params) => <TextField {...params} variant={"standard"}/>}
                     />
                     <Button variant={""}/>
-                    <PrequalifierListing key={refresh} onPreQualifierIdChange={handlePreQualifierIdChange} />
+                    <PrequalifierListing key={refresh} noLoadRefreshKey={noLoadRefresh} onPreQualifierIdChange={handlePreQualifierIdChange} />
                 </Grid>
                 <Grid item lg={9} sm={6} xs={12} sx={{pr:2,pb:2}}>
-                    <PrequalifierDetails onDelete={handleReject}  id={selectedPreQualifierId} />
+                    <PrequalifierDetails onDelete={handleNoLoadReject}  id={selectedPreQualifierId} />
                 </Grid>
             </Grid>
         </Card>

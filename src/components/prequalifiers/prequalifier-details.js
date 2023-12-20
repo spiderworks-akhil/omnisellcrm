@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NoDataAvailableYet from "../../utils/NoDataAvailableYet";
-import { Avatar, Box, Button, Card, CardHeader, Divider, Grid, IconButton, MenuItem, Modal, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardHeader, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, Skeleton, Typography } from "@mui/material";
 import { PreQualifiers } from "../../api/Endpoints/PreQualifiers";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import { PropertyList } from "../property-list";
@@ -76,10 +76,12 @@ const PrequalifierDetails = (props) => {
     const [avilableLeadTypes, setAvilableLeadTypes] = useState([]);
     const appSettings = useAppSettings();
     const [leadType, setLeadType] = useState(appSettings.get_lead_type());
-
+    const [deleteRefresh, setDeleteRefresh] = useState(false)
+    const [undoRefresh, setUndoRefresh] = useState(false)
     const [changeLeedModal, setChangeLeedModal] = React.useState(false);
     const handleOpenchangeLeedModal = () => setChangeLeedModal(true);
     const handleClosechangeLeedModal = () => setChangeLeedModal(false);
+    const [deleting, setdeleting] = useState(false)
 
 
     const fetchPrequalifierDetails = async () => {
@@ -88,6 +90,20 @@ const PrequalifierDetails = (props) => {
             setLeadData(response.data.data);
         })
         setIsLoading(false);
+    }
+
+    const fetchPrequalifierDetailsAfterDelete = async () => {
+        try {
+
+            await PreQualifiers.details({ lead_id: props.id }).then(response => {
+                setLeadData(response.data.data);
+                setDeleteRefresh(false)
+                setUndoRefresh(false)
+            })
+        } catch (error) {
+            setDeleteRefresh(false)
+            setUndoRefresh(false)
+        }
     }
 
     useEffect(() => {
@@ -109,15 +125,16 @@ const PrequalifierDetails = (props) => {
 
     const confirmAction = () => {
         // setOpen(true)
-        console.log('deleting...');
+        setDeleteRefresh(true)
         PreQualifiers.reject({ lead_id: props.id }).then(response => {
             if (response.data.status !== "error") {
                 toast.success(response.data.message)
-                fetchPrequalifierDetails()
-                // setIsDeleted(true);
+                fetchPrequalifierDetailsAfterDelete()
+                
                 props.onDelete()
             } else {
                 toast.error(response.data.message)
+                // setDeleteRefresh(false)
             }
         })
     }
@@ -127,13 +144,30 @@ const PrequalifierDetails = (props) => {
             PreQualifiers.reject({ lead_id: props.id }).then(response => {
                 if (response.data.status !== "error") {
                     toast.success(response.data.message)
-                    setIsDeleted(true);
+                    // setIsDeleted(true);
                     props.onDelete()
                 } else {
                     toast.error(response.data.message)
                 }
             })
         }
+    }
+
+    const handleUndoDelete = () => {
+        setUndoRefresh(true)
+        PreQualifiers.undo({ id: props.id }).then(response => {
+            console.log(response);
+            if (response.data.status !== "error") {
+                toast.success('Done')
+                // setIsDeleted(true); 
+                fetchPrequalifierDetailsAfterDelete()
+                props.onDelete()
+                // setUndoRefresh(false)
+            } else {
+                toast.error(response.data.message)
+                setUndoRefresh(false)
+            }
+        })
     }
 
     const handleAccept = () => {
@@ -206,9 +240,9 @@ const PrequalifierDetails = (props) => {
                                     <Button onClick={handleOpenchangeLeedModal} variant={"outlined"} size={"small"} color={"success"} sx={{ ml: 5, position: "absolute", right: "275px" }}><PublishedWithChanges /> Change Lead Type</Button>
 
                                     {leadData?.status == 'Open' ?
-                                        <Button onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px" }}><Delete />Delete</Button>
+                                        <Button disabled={deleteRefresh} onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px", width: '84px' }}> {deleteRefresh ? <CircularProgress size="23px" /> : <Delete />}{deleteRefresh ? '' : 'Delete'}</Button>
                                         :
-                                        <Button variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px" }}><Delete />Undo</Button>
+                                        <Button disabled={undoRefresh} onClick={handleUndoDelete} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px", width: '74px' }}>{undoRefresh ? <CircularProgress size="23px" /> : <Delete />}{undoRefresh ? '' : 'Undo'}</Button>
 
                                     }
                                     <Button onClick={handleAccept} variant={"outlined"} size={"small"} color={"success"} sx={{ ml: 5, position: "absolute", right: "120px" }}><Check /> Convert to Lead</Button>
@@ -229,14 +263,134 @@ const PrequalifierDetails = (props) => {
                                         {/*    />*/}
                                         {/*</ActionList>*/}
                                         <PropertyList>
-                                            <PropertyListItem
-                                                divider
-                                                label={leadData?.title}
-                                                value={leadData?.requirement}
-                                            />
+                                            <Grid container display={'flex'}>
+                                                <Grid md={8.5}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={leadData?.title}
+                                                        value={leadData?.requirement}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+
+                                                </Grid>
+                                                <Grid md={3.5}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Status'}
+                                                        value={leadData?.status}
+                                                        style={{ flex: 1, marginLeft: 'auto' }} // Adjust flex properties as needed
+                                                    />
+                                                </Grid>
+                                            </Grid>
                                         </PropertyList>
                                     </Grid>
-                                    <Grid item xs={6}>
+
+                                    <Grid item xs={12}>
+                                        <PropertyList>
+                                            <Grid container display={'flex'}>
+                                                <Grid md={3}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Name'}
+                                                        value={leadData?.name}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+
+                                                </Grid>
+                                                <Grid md={4}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Email'}
+                                                        value={leadData?.email}
+                                                        style={{ flex: 1, marginLeft: 'auto' }} // Adjust flex properties as needed
+                                                    />
+                                                </Grid>
+                                                <Grid md={5}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Phone Number'}
+                                                        value={leadData?.phone_number}
+                                                        style={{ flex: 1, marginLeft: 'auto' }} // Adjust flex properties as needed
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                        </PropertyList>
+                                    </Grid>
+
+
+                                    {
+                                        leadData?.company_name &&
+                                        <Grid item xs={12}>
+                                            <PropertyList>
+                                                <Grid container display={'flex'}>
+                                                    <Grid md={12}>
+                                                        <PropertyListItem
+                                                            // divider
+                                                            label={'Company'}
+                                                            value={leadData?.company_name}
+                                                            style={{ flex: 1 }} // Adjust flex properties as needed
+                                                        />
+                                                        <Divider sx={{}} />
+
+                                                    </Grid>
+                                                </Grid>
+                                            </PropertyList>
+                                        </Grid>
+                                    }
+
+                                    <Grid item xs={12}>
+                                        <PropertyList>
+                                            <Grid container display={'flex'}>
+                                                <Grid md={3}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Source App'}
+                                                        value={leadData?.source_app}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+
+                                                </Grid>
+                                                <Grid md={4}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Source Website'}
+                                                        value={leadData?.source_website}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+                                                </Grid>
+                                                <Grid md={5}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'Source URL'}
+                                                        value={leadData?.source_url}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+
+                                                </Grid>
+
+                                                {/* <Divider sx={{ }} /> */}
+                                            </Grid>
+                                        </PropertyList>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <PropertyList>
+                                            <Grid container display={'flex'}>
+                                                <Grid md={12}>
+                                                    <PropertyListItem
+                                                        divider
+                                                        label={'IP Address'}
+                                                        value={leadData?.ip_address}
+                                                        style={{ flex: 1 }} // Adjust flex properties as needed
+                                                    />
+
+                                                </Grid>
+                                            </Grid>
+                                        </PropertyList>
+                                    </Grid>
+
+                                    {/* mapping items in each column */}
+                                    {/* <Grid item xs={6}>
                                         <PropertyList>
                                             {showFields.map((key, index) => {
                                                 let total = Object.keys(showFields).length;
@@ -271,7 +425,7 @@ const PrequalifierDetails = (props) => {
                                                 }
                                             })}
                                         </PropertyList>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
 
                                 <Divider />

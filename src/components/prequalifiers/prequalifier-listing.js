@@ -27,12 +27,13 @@ const PrequalifierListing = (props) => {
         })
     }
 
-
-
     useEffect( async ()=>{
         fetchPreQualifiers();
     },[searchKeyword, listType, pageNumber])
 
+    useEffect( async ()=>{
+        fetchPreQualifiers();
+    },[props.noLoadRefreshKey])
     return (
         <Card sx={{py:2}} variant="outlined">
 
