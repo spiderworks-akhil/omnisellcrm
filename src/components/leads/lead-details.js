@@ -287,12 +287,12 @@ const LeadDetail = (props) => {
 
                 <Card sx={{ m: 1, p: 1 }}>
                     <Grid sx={{ width: "100%" }} container justifyContent="flex-end">
-                        <Button onClick={handleCallClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add call</Button>
+                        {/* <Button onClick={handleCallClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add call</Button> */}
                         <Button onClick={handleDemoClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add Follow Up</Button>
                         <Button onClick={handleNoteClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<StickyNote2TwoToneIcon />}>Add Notes</Button>
-                        <Button onClick={handleRequirementClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add Requirement</Button>
+                        {/* <Button onClick={handleRequirementClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<AddIcCallTwoToneIcon />}>Add Requirement</Button> */}
                         <Button onClick={handleAddToUserClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<User />}>Assign to a User</Button>
-                        <Button onClick={handleAddTeamMemberClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<User />}>Add team member</Button>
+                        {/* <Button onClick={handleAddTeamMemberClickOpen} size="small" sx={{ mr: 1 }} variant="outlined" startIcon={<User />}>Add team member</Button> */}
                         {/* <Button size="small" sx={{mr:1}} variant="outlined" startIcon={<CalendarMonthTwoToneIcon />}>Create a Meeting</Button> */}
                         {/* <Button  onClick={handleWorkOrderClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<WorkOutlined />}>Create a Work Order</Button>
                                 <Button onClick={handlePaymentProfileClickOpen} size="small" sx={{mr:1,mt:1}} variant="outlined" startIcon={<User />}>

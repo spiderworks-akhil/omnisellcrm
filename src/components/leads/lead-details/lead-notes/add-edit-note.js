@@ -154,7 +154,7 @@ const LeadAddEditNote = (props) => {
 
 
                                     <Grid sx={{ p: 1 }} item xs={12}>
-                                        <TextInput isMultiline control={control} name="description" label="Description of the note"
+                                        <TextInput isMultiline control={control} name="description" label="Description"
                                             value={watch('description')} />
                                     </Grid>
 

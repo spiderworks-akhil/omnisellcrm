@@ -284,7 +284,7 @@ const PrequalifierDetails = (props) => {
                                             </Grid>
                                         </PropertyList>
                                     </Grid>
-
+{/* <divider /> */}
                                     <Grid item xs={12}>
                                         <PropertyList>
                                             <Grid container display={'flex'}>
