@@ -24,10 +24,7 @@ import LeadSaveContactModal from "./lead-basic/lead-save-contact-modal";
 import ContactCard from "./lead-basic/contact-card";
 import { LeadStages } from "./lead-stages";
 import Labels from "./lead-basic/labels";
-import FollowUp from "./lead-basic/follow-up";
-import AddReferral from "../components/add-referral";
-import { format, parse, parseISO } from "date-fns";
-import ArchieveLead from './lead-archive';
+
 
 
 
@@ -88,17 +85,17 @@ export const LeadBasic = (props) => {
         return () => {
             setState(false);
         };
-    }, [props.leadId])
+    }, [props.leadId, props.refresh])
 
     return (
-        <Grid container sx={{ p: 1, m: 0 }}>
+        <Grid container sx={{ p: 0, m: 0 }}>
             <LeadSaveContactModal contactId={contactID} isShow={openContcatModal} onLeadUpdate={leadUpdateHandler} onHandleClose={handleContcatModalClose} leadId={props.leadId} />
             <LeadEditModal isShow={open} onLeadUpdate={leadUpdateHandler} onHandleClose={handleClose} leadId={props.leadId} />
             {isLoading ?
                 <Skeleton variant="rectangular" width={'100%'} height={300} animation="wave" />
                 :
                 <>
-                    <Grid item xs={12} sx={{ my: 1 }}>
+                    <Grid item xs={12} >
 
                         {notfications()}
                     </Grid>
@@ -106,7 +103,7 @@ export const LeadBasic = (props) => {
                         <Card
                             variant="outlined"
                         >
-                            <CardHeader
+                            {/* <CardHeader
                                 action={(
                                     <Button
                                         color="primary"
@@ -116,10 +113,10 @@ export const LeadBasic = (props) => {
                                         Edit lead no #{props.leadId}
                                     </Button>
                                 )}
-                                title={leadData.title ? leadData.title : "Lead info"}
+                            // title={leadData.title ? leadData.title : "Lead info"}
                             />
-                            <Divider />
-                            <Box
+                            <Divider /> */}
+                            {/* <Box
                                 sx={{
                                     alignItems: 'center',
                                     display: 'flex',
@@ -150,12 +147,12 @@ export const LeadBasic = (props) => {
 
                                     </>
                                 }
-                            </Box>
+                            </Box> */}
                             <Grid container>
                                 <Grid item xs={12}>
                                     <PropertyList>
                                         <Grid container display={'flex'}>
-                                            <Grid md={8.5}>
+                                            <Grid md={10.5}>
                                                 <PropertyListItem
                                                     divider
                                                     label={leadData?.title}
@@ -164,7 +161,7 @@ export const LeadBasic = (props) => {
                                                 />
 
                                             </Grid>
-                                            <Grid md={3.5}>
+                                            <Grid md={1.5}>
                                                 <PropertyListItem
                                                     divider
                                                     label={'Status'}
@@ -320,7 +317,7 @@ export const LeadBasic = (props) => {
                             </ActionList>
                         </Card>
                         {leadData.contact ?
-                            <Grid item xs={6} sx={{ mt: 2 }}>
+                            <Grid item xs={8} sx={{ mt: 2 }}>
                                 <ContactCard contactDetails={leadData.contact} onEdit={handleContactEdit} />
                             </Grid>
                             :
@@ -331,8 +328,9 @@ export const LeadBasic = (props) => {
                     </Grid>
 
                     <Grid item xs={3}>
-                        <ArchieveLead />
+                        {/* <ArchieveLead /> */}
                         {/*<FollowUp leadId={leadData.id}/>*/}
+                        {/* above stage */}
                         <Labels leadId={leadData.id} />
                         <LeadStages leadId={leadData.id} />
                     </Grid>

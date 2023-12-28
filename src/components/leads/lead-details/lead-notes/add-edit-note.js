@@ -76,6 +76,7 @@ const LeadAddEditNote = (props) => {
             setFormButtonStatus({ label: "Submitted", loading: false, disabled: true });
             setAlerts({ active: true, message: response.data.message, type: response.data.status })
             props.onDemoUpdate();
+            props.getCount()
             if (props.editId) { fetchEditDetails(); } else { reset(); }
             setFormButtonStatus({ label: "Create", loading: false, disabled: false });
             setTimeout(() => { setAlerts({}) }, 2000)
@@ -147,7 +148,7 @@ const LeadAddEditNote = (props) => {
                                     </Grid>
 
                                     <Grid sx={{ p: 1 }} item xs={12}>
-                                        <TextInput control={control} name="title" label="Title of the note"
+                                        <TextInput control={control} name="title" label="Title"
                                             value={watch('title')} />
                                     </Grid>
 

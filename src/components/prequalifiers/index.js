@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, Divider, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Divider, Grid, Modal, TextField, Typography } from "@mui/material";
 import PageHeader from "./page-header";
 import LeadListing from "../leads/lead-listing";
 import LeadDetail from "../leads/lead-details";
 import PrequalifierListing from "./prequalifier-listing";
 import PrequalifierDetails from "./prequalifier-details";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DateTimePicker } from "@mui/x-date-pickers";
 import { PreQualifiers } from '../../api/Endpoints/PreQualifiers';
 import { useAppSettings } from '../../hooks/use-app-settings';
 import moment from 'moment';
+import { Download } from '@mui/icons-material';
 
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+};
 const PreQualifierIndex = () => {
 
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
 
+    const [exportModalOpen, setexportModalOpen] = useState(false)
     const [selectedPreQualifierId, setSelectedPreQualifierId] = useState(null);
     const [refresh, setRefresh] = useState(1);
     const appSettings = useAppSettings();
@@ -32,6 +45,13 @@ const PreQualifierIndex = () => {
 
     const handleNoLoadReject = () => {
         setnoLoadRefresh(Math.random);
+    }
+
+    const handleExportModalOpen = () => {
+        setexportModalOpen(true)
+    }
+    const handleExportModalClose = () => {
+        setexportModalOpen(false)
     }
 
     const beforeRefresh = async () => {
@@ -81,15 +101,31 @@ const PreQualifierIndex = () => {
     return (
         <Card>
             <Grid container>
-                <Grid item xs={12}>
+                <Grid display={'flex'} justifyContent={'space-between'} item xs={12}>
                     <PageHeader />
+                    <Grid mr={3} display={'flex'} alignItems={'center'}>
+                        <Button onClick={handleExportModalOpen} variant='contained'>Export<Download sx={{ml:1}} fontSize='small' /></Button>
+                    </Grid>
                 </Grid>
 
                 <Grid item lg={3} sm={6} xs={12} sx={{ pl: 2, pr: 2, pb: 2 }}>
-                    <Card sx={{ mt: 5 }}>
-                        <CardContent>
-                            <Typography variant={"h5"}>Download report</Typography>
-                            <Divider sx={{ mb: 1 }} />
+                    <PrequalifierListing key={refresh} noLoadRefreshKey={noLoadRefresh} onPreQualifierIdChange={handlePreQualifierIdChange} />
+                </Grid>
+                <Grid item lg={9} sm={6} xs={12} sx={{ pr: 2, pb: 2 }}>
+                    <PrequalifierDetails onDelete={handleNoLoadReject} id={selectedPreQualifierId} />
+                </Grid>
+            </Grid>
+            <Modal
+                open={exportModalOpen}
+                onClose={handleExportModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography variant={"h5"}>Download report</Typography>
+                    <Divider sx={{ mb: 1 }} />
+                    <Grid container md={12}>
+                        <Grid p={1} md={6}>
                             <DatePicker
                                 label="Follow up date"
                                 value={from}
@@ -97,21 +133,21 @@ const PreQualifierIndex = () => {
                                 views={['year', 'month', 'day']}
                                 renderInput={(params) => <TextField {...params} variant={"standard"} />}
                             />
+                        </Grid>
+                        <Grid p={1} md={6}>
                             <DatePicker
                                 label="Follow up date"
                                 value={to}
                                 onChange={handleToChange}
-                                renderInput={(params) => <TextField {...params} variant={"standard"} sx={{ mt: 1 }} />}
+                                renderInput={(params) => <TextField {...params} variant={"standard"} />}
                             />
-                            <Button sx={{ mt: 1 }} variant="contained" onClick={downloadReport}>Download report</Button>
-                        </CardContent>
-                    </Card>
-                    <PrequalifierListing key={refresh} noLoadRefreshKey={noLoadRefresh} onPreQualifierIdChange={handlePreQualifierIdChange} />
-                </Grid>
-                <Grid item lg={9} sm={6} xs={12} sx={{ pr: 2, pb: 2 }}>
-                    <PrequalifierDetails onDelete={handleNoLoadReject} id={selectedPreQualifierId} />
-                </Grid>
-            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid display={'flex'} justifyContent={'flex-end'}>
+                        <Button sx={{ mt: 1, ml: 'auto' }} variant="contained" onClick={downloadReport}>Download report</Button>
+                    </Grid>
+                </Box>
+            </Modal>
         </Card>
     );
 };

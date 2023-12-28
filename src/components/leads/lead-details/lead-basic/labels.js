@@ -64,7 +64,7 @@ const Labels = (props) => {
     },[refresh])
 
     return (
-        <Card sx={{mx:2,mb:2}}>
+        <Card sx={{mx:2}}>
             {loading && <LinearProgress color={"inherit"} variant={"indeterminate"} />}
             {labels.map((obj,index) => {
                 return <DynamicChipMultiple

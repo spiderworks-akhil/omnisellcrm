@@ -130,7 +130,7 @@ const PrequalifierDetails = (props) => {
             if (response.data.status !== "error") {
                 toast.success(response.data.message)
                 fetchPrequalifierDetailsAfterDelete()
-                
+
                 props.onDelete()
             } else {
                 toast.error(response.data.message)
@@ -239,11 +239,10 @@ const PrequalifierDetails = (props) => {
 
                                     <Button onClick={handleOpenchangeLeedModal} variant={"outlined"} size={"small"} color={"success"} sx={{ ml: 5, position: "absolute", right: "275px" }}><PublishedWithChanges /> Change Lead Type</Button>
 
-                                    {leadData?.status == 'Open' ?
-                                        <Button disabled={deleteRefresh} onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px", width: '84px' }}> {deleteRefresh ? <CircularProgress size="23px" /> : <Delete />}{deleteRefresh ? '' : 'Delete'}</Button>
-                                        :
+                                    {leadData?.status == 'Rejected' ?
                                         <Button disabled={undoRefresh} onClick={handleUndoDelete} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px", width: '74px' }}>{undoRefresh ? <CircularProgress size="23px" /> : <Delete />}{undoRefresh ? '' : 'Undo'}</Button>
-
+                                        :
+                                        <Button disabled={deleteRefresh} onClick={confirmAction} variant={"outlined"} size={"small"} color={"error"} sx={{ ml: 5, position: "absolute", right: "24px", width: '84px' }}> {deleteRefresh ? <CircularProgress size="23px" /> : <Delete />}{deleteRefresh ? '' : 'Delete'}</Button>
                                     }
                                     <Button onClick={handleAccept} variant={"outlined"} size={"small"} color={"success"} sx={{ ml: 5, position: "absolute", right: "120px" }}><Check /> Convert to Lead</Button>
 
@@ -284,7 +283,7 @@ const PrequalifierDetails = (props) => {
                                             </Grid>
                                         </PropertyList>
                                     </Grid>
-{/* <divider /> */}
+                                    {/* <divider /> */}
                                     <Grid item xs={12}>
                                         <PropertyList>
                                             <Grid container display={'flex'}>

@@ -1,5 +1,5 @@
 import { Box, Button, Chip, Grid, MenuItem, Modal, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectInputWithSearch from '../../Form/SelectInputWithSearch'
 import { useForm } from 'react-hook-form';
 import DynamicChip from '../../../utils/DynamicChip';
@@ -17,7 +17,7 @@ const style = {
     p: 4,
 };
 
-function ArchieveLead() {
+function ArchieveLead(props) {
 
     const { register, handleSubmit, watch, formState: { errors }, control, setValue, reset } = useForm();
     const [open, setOpen] = useState(false)
@@ -32,6 +32,7 @@ function ArchieveLead() {
     }
 
     const handleClose = () => {
+        props.onHandleClose()
         setOpen(false)
     }
 
@@ -42,11 +43,11 @@ function ArchieveLead() {
         { label: 'Future', id: 4 },
     ]
 
+    useEffect(() => {
+        props.isShow ? setOpen(true) : setOpen(false);
+    }, [props.isShow])
+
     return (
-        <Grid display={'flex'} justifyContent={'end'} mt={-3}>
-            <a onClick={handleOpen} style={{ fontSize: '13px', color: 'blue', marginRight: '20px', textDecoration: 'underline', cursor: 'pointer' }}>
-                Archive
-            </a>
 
             <Modal
                 open={open}
@@ -87,7 +88,7 @@ function ArchieveLead() {
                     </Grid>
                 </Box>
             </Modal>
-        </Grid>
+        
     )
 }
 

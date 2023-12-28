@@ -99,6 +99,7 @@ const LeadAddEditDemo = (props) => {
         action.then(response => {
             setFormButtonStatus({ label: "Submitted", loading: false, disabled: true });
             setAlerts({ active: true, message: response.data.message, type: response.data.status })
+            props.getCount()
             props.onDemoUpdate();
             if (props.editId) { fetchEditDetails(); } else { reset(); }
             setFormButtonStatus({ label: "Create", loading: false, disabled: false });

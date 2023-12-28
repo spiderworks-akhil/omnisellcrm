@@ -97,7 +97,9 @@ const LeadEditModal = (props) => {
             setFormButtonStatus({ label: "Submitted", loading: false, disabled: true });
             setAlerts({ active: true, message: response.data.message, type: response.data.status })
             setLastLeadId(response.data.data.id)
-            props.onLeadUpdate();
+            if(response?.data?.status=='success'){
+                props.onLeadUpdate();
+            }
             setFormButtonStatus({ label: "Update", loading: false, disabled: false });
         }).catch(errors => {
             toast.error("Internal server error");
