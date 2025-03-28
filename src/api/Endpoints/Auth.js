@@ -14,7 +14,7 @@ let data = {
     grant_type:'authorization_code'
 }
 export const Auth = {
-    login: (data) => post('/login', data),
+    login: (data) => post('/login?portal=admin', data),
     register: (id) => get(`/login/${id}`),
     me: () => get(`/users/me`),
     sendOtp: (data) => post(`forgot-password`, data),
